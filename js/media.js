@@ -136,7 +136,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       if (currentPage > totalPages) {
         currentPage = totalPages;
       }
-e
       const from = (currentPage - 1) * pageSize;
       const to = from + pageSize - 1;
 
@@ -187,7 +186,6 @@ e
       img.className =
         "w-full h-48 object-cover transition-transform group-hover:scale-105";
       img.addEventListener("click", () => openLightbox(imageData));
-n
       const checkboxWrapper = document.createElement("div");
       checkboxWrapper.className = "absolute top-2 left-2 z-10";
 
