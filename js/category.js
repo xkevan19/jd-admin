@@ -1,8 +1,4 @@
 document.addEventListener("DOMContentLoaded", async function () {
-  // Variables
-  const { createClient } = window.supabase;
-  let supabaseClient;
-  let categories = [];
 
   // DOM Elements - Main UI
   const categoryForm = document.getElementById("categoryForm");
@@ -28,20 +24,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
   let categoryToDelete = null;
 
-  // Fetch Supabase config securely
-  const fetchSupabaseConfig = async () => {
-    try {
-      const response = await fetch("/.netlify/functions/getsupabaseconfig");
-      if (!response.ok) throw new Error("Failed to fetch configuration");
-      return await response.json();
-    } catch (error) {
-      console.error("Error fetching config:", error);
-      statusEl.innerText = "Configuration error. Please contact support.";
-      statusEl.classList.add("text-red-500");
-      return null;
-    }
-  };
-
   const logActivity = async (action, itemName = null, category = null) => {
     try {
       const {
@@ -61,47 +43,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       if (error) console.error("Error logging activity:", error.message);
     } catch (error) {
       console.error("Activity logging failed:", error.message);
-    }
-  };
-
-  // Check authentication status
-  const checkAuthStatus = async () => {
-    try {
-      const config = await fetchSupabaseConfig();
-      if (!config) return null;
-
-      supabaseClient = createClient(config.url, config.key);
-      const {
-        data: { session },
-        error,
-      } = await supabaseClient.auth.getSession();
-
-      if (error || !session) {
-        console.error("Authentication error or no session");
-        window.location.href = "index.html";
-        return null;
-      }
-
-      document.getElementById("userEmail").textContent = session.user.email;
-      return session;
-    } catch (error) {
-      console.error("Session verification failed:", error.message);
-      window.location.href = "index.html";
-      return null;
-    }
-  };
-
-  // Handle logout
-  const handleLogout = async () => {
-    try {
-      await logActivity("Logout");
-      const { error } = await supabaseClient.auth.signOut();
-      if (error) throw error;
-      window.location.href = "index.html";
-    } catch (error) {
-      console.error("Logout failed:", error.message);
-      statusEl.innerText = "Logout failed. Please try again.";
-      statusEl.classList.add("text-red-500");
     }
   };
 
@@ -291,31 +232,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       statusEl.className = "mt-2 text-center text-red-500 min-h-[24px]";
       closeDeleteModal();
     }
-  };
-
-  // Initialize
-  const init = async () => {
-    const session = await checkAuthStatus();
-    if (!session) return;
-
-    // Get Supabase client
-    const config = await fetchSupabaseConfig();
-    if (!config) return;
-
-    supabaseClient = createClient(config.url, config.key);
-
-    // Setup logout
-    document
-      .getElementById("logoutBtn")
-      .addEventListener("click", handleLogout);
-
-    // Setup event listeners
-    categoryForm.addEventListener("submit", addCategory);
-    editForm.addEventListener("submit", updateCategory);
-    refreshBtn.addEventListener("click", fetchCategories);
-    confirmDeleteBtn.addEventListener("click", deleteCategory);
-
-    await fetchCategories();
   };
 
   // Back to Top Button functionality
