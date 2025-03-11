@@ -78,7 +78,7 @@ function playBeepBoop() {
   function beep(time, frequency, duration) {
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
-    oscillator.type = 'square';
+    oscillator.type = "square";
     oscillator.frequency.value = frequency;
     gainNode.gain.value = 0.1;
     oscillator.connect(gainNode);
@@ -94,37 +94,31 @@ function playBeepBoop() {
 
 // Make explosion cover more of the page
 function enhanceExplosion() {
-  const explosion = document.querySelector('.explosion');
+  const explosion = document.querySelector(".explosion");
   if (explosion) {
-    explosion.style.width = '600px';
-    explosion.style.height = '600px';
-    explosion.style.position = 'fixed';
-    explosion.style.top = '50%';
-    explosion.style.left = '50%';
-    explosion.style.transform = 'translate(-50%, -50%) ';
-    explosion.style.zIndex = '1000';
+    explosion.style.width = "1200px";
+    explosion.style.height = "1200px";
+    explosion.style.position = "fixed";
+    explosion.style.top = "50%";
+    explosion.style.left = "50%";
+    explosion.style.transform = "translate(-50%, -50%)";
+    explosion.style.zIndex = "1000";
   }
 }
 
 // Initialize event listeners when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-  // Handle logout button click
-  const logoutBtn = document.getElementById('logoutBtn');
-  
+document.addEventListener("DOMContentLoaded", () => {
+  const logoutBtn = document.getElementById("logoutBtn");
+
   if (logoutBtn) {
-    logoutBtn.addEventListener('click', function() {
-      if (!this.classList.contains('self-destruct')) {
-        // Enhance explosion size
+    logoutBtn.addEventListener("click", function () {
+      if (!this.classList.contains("self-destruct")) {
         enhanceExplosion();
-        
-        // Add animation class
-        this.classList.add('self-destruct');
-        
-        // Play sound effect
+        this.classList.add("self-destruct");
         playBeepBoop();
         setTimeout(async () => {
           await handleLogout();
-        }, 1500); // Set to match the full animation time
+        }, 1500);
       }
     });
   }
