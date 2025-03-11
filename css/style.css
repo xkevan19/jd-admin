@@ -50,11 +50,24 @@ body {
     background-color: rgba(20, 20, 20, 0.8);
     border-right: 1px solid rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
+    height: 100vh;
+}
+
+nav {
+    flex: 1;
 }
 
 .nav-item {
+    display: flex;
+    align-items: center;
+    padding: 14px 20px;
     transition: all 0.2s ease;
     border-left: 3px solid transparent;
+}
+
+.sidebar>div:last-child {
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .nav-item:hover,
@@ -74,12 +87,267 @@ body {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
+.logout-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+}
+
 .logout-btn {
-    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    color: #f0f0f0;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    position: relative;
+    overflow: visible;
+    transition: all 0.3s ease;
+    gap: 8px;
+    justify-content: flex-start;
 }
 
 .logout-btn:hover {
-    background-color: rgba(112, 119, 255, 0.2);
+    background-color: rgba(40, 40, 40, 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.robot-container {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    transform-origin: center;
+}
+
+/* Robot Eyes Blinking */
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+@keyframes blinkFast {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+.robot-eye {
+    animation: blink 3s infinite;
+}
+
+.logout-btn:hover .robot-eye {
+    animation: blinkFast 0.5s infinite;
+}
+
+/* Blinking Lights */
+@keyframes lightBlink {
+
+    0%,
+    100% {
+        opacity: 0.7;
+    }
+
+    50% {
+        opacity: 0.1;
+    }
+}
+
+.robot-light {
+    animation: lightBlink 2s infinite;
+}
+
+.robot-light:nth-child(odd) {
+    animation-delay: 0.5s;
+}
+
+/* Self-Destruct Animation */
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0) rotate(0);
+    }
+
+    10% {
+        transform: translateX(-3px) rotate(-2deg);
+    }
+
+    20% {
+        transform: translateX(3px) rotate(2deg);
+    }
+
+    30% {
+        transform: translateX(-3px) rotate(-2deg);
+    }
+
+    40% {
+        transform: translateX(3px) rotate(2deg);
+    }
+
+    50% {
+        transform: translateX(-3px) rotate(-2deg);
+    }
+
+    60% {
+        transform: translateX(3px) rotate(2deg);
+    }
+
+    70% {
+        transform: translateX(-3px) rotate(-2deg);
+    }
+
+    80% {
+        transform: translateX(3px) rotate(2deg);
+    }
+
+    90% {
+        transform: translateX(-3px) rotate(-2deg);
+    }
+}
+
+@keyframes spark {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    20% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    80% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0.2) translate(20px, 20px);
+    }
+}
+
+@keyframes explode {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    20% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+
+    80% {
+        opacity: 0.8;
+        transform: scale(2);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(3);
+    }
+}
+
+@keyframes robotFade {
+    0% {
+        opacity: 1;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes goodbye {
+    0% {
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.spark {
+    opacity: 0;
+    transform-origin: center;
+}
+
+.explosion {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.goodbye-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 6px;
+    text-align: center;
+    opacity: 0;
+}
+
+.self-destruct .robot-container {
+    animation: shake 0.5s ease-in-out, robotFade 2s forwards;
+}
+
+.self-destruct .spark {
+    animation: spark 0.6s ease-out forwards;
+}
+
+.self-destruct .spark:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.self-destruct .spark:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.self-destruct .spark:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.self-destruct .explosion {
+    animation: explode 1s ease-out 0.5s forwards;
+}
+
+.self-destruct .goodbye-message {
+    animation: goodbye 0.8s ease-in-out 0.2s forwards;
 }
 
 /* Mobile sidebar styles */

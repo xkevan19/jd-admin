@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Blade - Jesiah Desaine Media</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .dropzone-active {
+            border-color: #6366f1;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        input[type="range"] {
+            accent-color: #6366f1;
+        }
+
+        nav ul {
+            list-style-type: none;
+        }
+
+        .icon-container {
+            width: 24px;
+            height: 24px;
+            margin-right: 14px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        span {
+            font-size: 0.95rem;
+        }
+
+        /* SVG Animations */
+
+        /* Dashboard / Rocket */
+        .rocket-default,
+        .rocket-hover {
+            position: absolute;
+            transition: all 0.4s ease;
+        }
+
+        .rocket-hover {
+            opacity: 0;
+            transform: translateY(24px);
+        }
+
+        .nav-item:hover .rocket-default {
+            opacity: 0;
+            transform: translateY(-24px);
+        }
+
+        .nav-item:hover .rocket-hover {
+            opacity: 1;
+            transform: translateY(0);
+            color: #ff4757;
+        }
+
+        /* Categories / Folder */
+        .folder-default,
+        .folder-hover,
+        .folder-files {
+            position: absolute;
+            transition: all 0.4s ease;
+        }
+
+        .folder-hover,
+        .folder-files {
+            opacity: 0;
+        }
+
+        .nav-item:hover .folder-default {
+            opacity: 0;
+        }
+
+        .nav-item:hover .folder-hover {
+            opacity: 1;
+            color: #ffa502;
+        }
+
+        .nav-item:hover .folder-files {
+            opacity: 1;
+            transition-delay: 0.1s;
+        }
+
+        /* Media / Camera */
+        .camera-default,
+        .camera-hover,
+        .camera-flash {
+            position: absolute;
+            transition: all 0.3s ease;
+        }
+
+        .camera-hover,
+        .camera-flash {
+            opacity: 0;
+        }
+
+        .nav-item:hover .camera-default {
+            opacity: 0;
+        }
+
+        .nav-item:hover .camera-hover {
+            opacity: 1;
+            color: #2ed573;
+        }
+
+        .nav-item:hover .camera-flash {
+            opacity: 1;
+            animation: flash 0.5s ease-out;
+        }
+
+        @keyframes flash {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(1.5);
+            }
+        }
+
+        /* Upload / Cloud */
+        .upload-default,
+        .upload-hover {
+            position: absolute;
+            transition: all 0.5s ease;
+        }
+
+        .upload-hover {
+            opacity: 0;
+        }
+
+        .nav-item:hover .upload-default {
+            opacity: 0;
+        }
+
+        .nav-item:hover .upload-hover {
+            opacity: 1;
+            color: #1e90ff;
+        }
+
+        .upload-arrow {
+            transition: transform 0.5s ease;
+        }
+
+        .nav-item:hover .upload-arrow {
+            transform: translateY(-5px);
+        }
+
+        .upload-cloud {
+            transform: translateY(15px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .nav-item:hover .upload-cloud {
+            transform: translateY(4px);
+            opacity: 1;
+        }
+
+        /* Binary Blade / Scissors */
+        .crop-default,
+        .crop-hover {
+            position: absolute;
+            transition: all 0.5s ease;
+        }
+
+        .crop-hover {
+            opacity: 0;
+        }
+
+        .nav-item:hover .crop-default {
+            opacity: 0;
+        }
+
+        .nav-item:hover .crop-hover {
+            opacity: 1;
+            color: #9b59b6;
+        }
+
+        .scissors-top,
+        .scissors-bottom {
+            transform-origin: 12px 9px;
+            transition: all 0.5s ease;
+        }
+
+        .scissors-image {
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .nav-item:hover .scissors-top {
+            animation: cutTop 1.2s ease-in-out;
+        }
+
+        .nav-item:hover .scissors-bottom {
+            animation: cutBottom 1.2s ease-in-out;
+        }
+
+        .nav-item:hover .scissors-image {
+            opacity: 1;
+            transition-delay: 0.3s;
+        }
+
+        @keyframes cutTop {
+            0% {
+                transform: rotate(0);
+            }
+
+            30% {
+                transform: rotate(-15deg);
+            }
+
+            60% {
+                transform: rotate(5deg);
+            }
+
+            100% {
+                transform: rotate(0);
+            }
+        }
+
+        @keyframes cutBottom {
+            0% {
+                transform: rotate(0);
+            }
+
+            30% {
+                transform: rotate(15deg);
+            }
+
+            60% {
+                transform: rotate(-5deg);
+            }
+
+            100% {
+                transform: rotate(0);
+            }
+        }
+    </style>
+</head>
+
+<body
+    class="min-h-screen text-zinc-200 bg-[url(./img/binary-blade.webp)] bg-cover bg-center bg-blend-hard-light relative">
+    <div id="alertContainer" class="fixed top-0 left-0 right-0 p-4 z-50"></div>
+
+    <!-- Mobile Nav Overlay -->
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden"></div>
+
+    <div class="flex h-screen overflow-hidden">
+        <aside id="sidebar"
+            class="sidebar w-64 h-full flex flex-col md:relative fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-50 bg-zinc-900 border-r border-zinc-800">
+            <div class="p-4 border-b border-zinc-800 flex justify-between items-center">
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold gradient-text">JESIAH DESAINE</h1>
+                    <p class="text-zinc-500 text-xs md:text-sm">Admin Dashboard</p>
+                </div>
+                <button id="closeSidebar" class="md:hidden text-zinc-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <nav>
+                <ul>
+                    <li>
+                        <a href="#" class="nav-item">
+                            <div class="icon-container">
+                                <!-- Dashboard -->
+                                <svg class="rocket-default" viewBox="0 0 24 24" width="24" height="24">
+                                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="currentColor" />
+                                </svg>
+                                <svg class="rocket-hover" viewBox="0 0 24 24" width="24" height="24">
+                                    <path d="M12,3.5c-2,0-3,2-3,4.5v3l-3,3h3v6h6v-6h3l-3-3V8c0-2.5-1-4.5-3-4.5z"
+                                        fill="currentColor" />
+                                    <ellipse cx="12" cy="20" rx="6" ry="1.5" fill="#ff7979" opacity="0.7" />
+                                    <ellipse cx="12" cy="21" rx="4" ry="1" fill="#ffbe76" opacity="0.6" />
+                                </svg>
+                            </div>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-item">
+                            <div class="icon-container">
+                                <!-- Categories -->
+                                <svg class="folder-default" viewBox="0 0 24 24" width="24" height="24">
+                                    <path
+                                        d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"
+                                        fill="currentColor" />
+                                </svg>
+                                <svg class="folder-hover" viewBox="0 0 24 24" width="24" height="24">
+                                    <path
+                                        d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"
+                                        fill="currentColor" />
+                                </svg>
+                                <svg class="folder-files" viewBox="0 0 24 24" width="24" height="24">
+                                    <rect x="6" y="12" width="4" height="1" fill="white" />
+                                    <rect x="6" y="14" width="6" height="1" fill="white" />
+                                    <rect x="6" y="16" width="5" height="1" fill="white" />
+                                    <rect x="13" y="12" width="5" height="1" fill="white" />
+                                    <rect x="14" y="14" width="4" height="1" fill="white" />
+                                    <rect x="13" y="16" width="5" height="1" fill="white" />
+                                </svg>
+                            </div>
+                            <span>Categories</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-item">
+                            <div class="icon-container">
+                                <!-- Media -->
+                                <svg class="camera-default" viewBox="0 0 24 24" width="24" height="24">
+                                    <path
+                                        d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9z"
+                                        fill="currentColor" />
+                                    <circle cx="12" cy="12" r="3" fill="#333" />
+                                </svg>
+                                <svg class="camera-hover" viewBox="0 0 24 24" width="24" height="24">
+                                    <path
+                                        d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9z"
+                                        fill="currentColor" />
+                                    <circle cx="12" cy="12" r="2" fill="#333" />
+                                </svg>
+                                <svg class="camera-flash" viewBox="0 0 24 24" width="24" height="24">
+                                    <circle cx="12" cy="12" r="6" fill="white" opacity="0.8" />
+                                </svg>
+                            </div>
+                            <span>Media</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-item">
+                            <div class="icon-container">
+                                <!-- Upload -->
+                                <svg class="upload-default" viewBox="0 0 24 24" width="24" height="24">
+                                    <path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z" fill="currentColor" />
+                                </svg>
+                                <svg class="upload-hover" viewBox="0 0 24 24" width="24" height="24">
+                                    <g class="upload-arrow">
+                                        <path d="M12 6l5 5h-3v4h-4v-4H7l5-5z" fill="currentColor" />
+                                    </g>
+                                    <g class="upload-cloud">
+                                        <path
+                                            d="M19 18H5a3 3 0 0 1-3-3c0-1.6 1.3-2.9 2.9-3a4 4 0 0 1 7.1-3.6c.5-.2 1-.4 1.5-.4a4 4 0 0 1 4 4c1.7 0 3 1.3 3 3s-1.3 3-3 3z"
+                                            fill="#1e90ff" opacity="0.8" />
+                                    </g>
+                                </svg>
+                            </div>
+                            <span>Upload</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-item active">
+                            <div class="icon-container">
+                                <!-- Binary Blade -->
+                                <svg class="crop-default" viewBox="0 0 24 24" width="24" height="24">
+                                    <path
+                                        d="M17 15h2V7c0-1.1-.9-2-2-2H9v2h8v8zM7 17V1H5v4H1v2h4v10c0 1.1.9 2 2 2h10v4h2v-4h4v-2H7z"
+                                        fill="currentColor" />
+                                </svg>
+                                <svg class="crop-hover" viewBox="0 0 24 24" width="24" height="24">
+                                    <g>
+                                        <!-- Scissors image being cut -->
+                                        <rect class="scissors-image" x="7" y="9" width="10" height="6" rx="1"
+                                            fill="#9b59b6" opacity="0.3" />
+                                        <!-- Scissors -->
+                                        <path class="scissors-top"
+                                            d="M7.5,7 C5.5,5 5.5,4 7.5,3 C9.5,2 11.5,4 9.5,6 L16,12"
+                                            stroke="currentColor" stroke-width="1.5" fill="none" />
+                                        <path class="scissors-bottom"
+                                            d="M7.5,17 C5.5,19 5.5,20 7.5,21 C9.5,22 11.5,20 9.5,18 L16,12"
+                                            stroke="currentColor" stroke-width="1.5" fill="none" />
+                                        <circle cx="7.5" cy="3.5" r="1.2" fill="currentColor" />
+                                        <circle cx="7.5" cy="20.5" r="1.2" fill="currentColor" />
+                                        <!-- Cut line -->
+                                        <path class="scissors-image" d="M8,12 L16,12" stroke="white" stroke-width="0.7"
+                                            stroke-dasharray="1,1" />
+                                    </g>
+                                </svg>
+                            </div>
+                            <span>Binary Blade</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- User Profile and Logout -->
+            <div class="border-t border-zinc-800 p-4">
+                <div class="flex items-center mb-4">
+                    <div
+                        class="w-8 h-8 md:w-10 md:h-10 rounded-full blue-gradient flex items-center justify-center text-white">
+                        <span id="userInitials" class="text-sm md:text-base">JD</span>
+                    </div>
+                    <div class="ml-3">
+                        <p id="userName" class="font-medium text-sm md:text-base">Admin User</p>
+                        <p id="userEmail" class="text-xs md:text-sm text-zinc-500">admin@example.com</p>
+                    </div>
+                </div>
+                <div class="logout-container">
+                    <button id="logoutBtn" class="logout-btn">
+                        <span><i class="fas fa-sign-out-alt w-6"></i> Logout</span>
+                        <div class="robot-container">
+                            <!-- Robot SVG -->
+                            <svg viewBox="0 0 50 50" width="100%" height="100%">
+                                <!-- Robot Head - scaled down and centered -->
+                                <rect x="15" y="10" width="20" height="25" rx="3" fill="#444" stroke="#222"
+                                    stroke-width="1" />
+                            
+                                <!-- Robot Eyes - scaled down -->
+                                <circle class="robot-eye" cx="22" cy="20" r="2.5" fill="#29B6F6" />
+                                <circle class="robot-eye" cx="28" cy="20" r="2.5" fill="#29B6F6" />
+                            
+                                <!-- Robot Mouth - scaled down -->
+                                <rect x="19" y="27" width="12" height="2" rx="1" fill="#333" />
+                            
+                                <!-- Robot Antenna - scaled down -->
+                                <line x1="25" y1="10" x2="25" y2="7" stroke="#666" stroke-width="1.5" />
+                                <circle cx="25" cy="7" r="0.8" fill="#888" />
+                            
+                                <!-- Robot Lights - scaled down -->
+                                <circle class="robot-light" cx="17" cy="13" r="1" fill="#FF5252" />
+                                <circle class="robot-light" cx="17" cy="16.5" r="1" fill="#FFAB40" />
+                                <circle class="robot-light" cx="33" cy="13" r="1" fill="#FF5252" />
+                                <circle class="robot-light" cx="33" cy="16.5" r="1" fill="#FFAB40" />
+                            
+                                <!-- Robot Ears/Sides - scaled down -->
+                                <rect x="12" y="15" width="2" height="10" rx="1" fill="#555" />
+                                <rect x="36" y="15" width="2" height="10" rx="1" fill="#555" />
+                            
+                                <!-- Binary in eyes (hidden initially) -->
+                                <text class="goodbye-message" x="25" y="20" text-anchor="middle" fill="#fff" font-size="0.8">01000010
+                                    01111001 01100101</text>
+                            
+                                <!-- Sparks (hidden initially) -->
+                                <path class="spark"
+                                    d="M7,12 L4,9 L5,12 L1.5,13 L5,13.5 L4,17 L7,14 L9,18 L9,14 L12.5,15 L9,12 Z"
+                                    fill="#FFEB3B" transform="translate(5,0)" />
+                                <path class="spark"
+                                    d="M7,12 L4,9 L5,12 L1.5,13 L5,13.5 L4,17 L7,14 L9,18 L9,14 L12.5,15 L9,12 Z"
+                                    fill="#FFEB3B" transform="translate(25,5) rotate(120)" />
+                                <path class="spark"
+                                    d="M7,12 L4,9 L5,12 L1.5,13 L5,13.5 L4,17 L7,14 L9,18 L9,14 L12.5,15 L9,12 Z"
+                                    fill="#FFEB3B" transform="translate(15,25) rotate(240)" />
+                            </svg>
+
+                            <!-- Explosion Cloud (hidden initially) -->
+                            <svg class="explosion" viewBox="0 0 100 100" width="100" height="100">
+                                <path
+                                    d="M50,30 C60,10 80,20 85,35 C100,25 100,50 90,60 C100,75 80,90 65,85 C60,100 40,95 30,85 C10,90 5,70 15,60 C5,50 15,30 30,35 C30,15 45,15 50,30 Z"
+                                    fill="#FF5252" />
+                                <path
+                                    d="M50,35 C58,20 75,28 78,38 C90,30 90,50 82,58 C90,70 75,80 65,76 C60,88 45,84 38,76 C22,80 18,65 25,58 C18,50 25,35 35,38 C35,22 45,25 50,35 Z"
+                                    fill="#FFAB40" />
+                                <path
+                                    d="M50,40 C56,28 68,33 72,42 C80,36 80,50 74,56 C80,65 70,72 60,68 C56,76 48,74 42,68 C32,70 28,60 34,56 C30,50 34,40 42,42 C42,32 46,32 50,40 Z"
+                                    fill="#FFEB3B" />
+                            </svg>
+                        </div>
+
+                    </button>
+                </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto w-full pb-8">
+            <!-- Mobile Header with Menu Button -->
+            <div
+                class="md:hidden sticky top-0 z-30 bg-zinc-900/95 backdrop-blur-sm p-4 flex items-center justify-between border-b border-zinc-800">
+                <button id="openSidebar" class="text-zinc-300 hover:text-white">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <h1 class="text-lg font-bold gradient-text">JESIAH DESAINE</h1>
+                <div class="w-8 h-8 rounded-full blue-gradient flex items-center justify-center text-white text-sm">
+                    <span id="mobileUserInitials">JD</span>
+                </div>
+            </div>
+
+            <div class="p-3 md:p-6">
+                <div class="flex flex-col md:flex-row items-center justify-between mb-6">
+                    <h1 class="text-xl md:text-2xl font-bold mb-4 md:mb-0">Binary Blade</h1>
+                    <div class="flex space-x-3">
+                        <a href="upload.html"
+                            class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-4 py-2 rounded-lg transition flex items-center">
+                            <i class="fas fa-upload mr-2"></i>Upload
+                        </a>
+                        <a href="dash.html"
+                            class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-4 py-2 rounded-lg transition flex items-center">
+                            <i class="fas fa-home mr-2"></i>Dashboard
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Main converter container -->
+                <div class="dashboard-container p-4 md:p-6 rounded-xl shadow-2xl">
+                    <div class="mb-6">
+                        <h2 class="text-xl font-semibold text-white text-center">Image Converter & Resizer</h2>
+                        <p class="text-zinc-400 text-center mt-2">Convert and resize your images to WebP format for
+                            smaller file sizes and better performance</p>
+                    </div>
+
+                    <div id="dropzone"
+                        class="border-2 border-dashed border-zinc-700 rounded-xl p-8 mb-8 text-center cursor-pointer transition-colors hover:bg-zinc-800">
+                        <div class="flex flex-col items-center">
+                            <i class="fas fa-cloud-upload-alt text-zinc-500 text-4xl mb-4"></i>
+                            <p class="text-zinc-400 mb-2">Drag and drop images here or click to browse</p>
+                            <p class="text-zinc-500 text-sm">Supported formats: JPG, PNG, GIF, BMP, TIFF</p>
+                            <input type="file" id="fileInput" multiple accept="image/*" class="hidden">
+                            <button id="browseButton"
+                                class="mt-4 px-4 py-2 blue-gradient text-white rounded-lg hover:opacity-90 transition">Browse
+                                Files</button>
+                        </div>
+                    </div>
+
+                    <!-- Resize Settings Panel -->
+                    <div id="resizeSettings" class="bg-zinc-900 rounded-xl p-6 mb-8">
+                        <h2 class="text-lg font-semibold text-white mb-4">Resize Settings</h2>
+
+                        <div class="mb-4">
+                            <div class="flex items-center mb-2">
+                                <input id="enableResize" type="checkbox" class="mr-2 h-4 w-4">
+                                <label for="enableResize" class="text-zinc-300">Enable Resize</label>
+                            </div>
+                            <p class="text-zinc-500 text-sm">When enabled, images will be resized during conversion</p>
+                        </div>
+
+                        <div id="resizeOptions"
+                            class="space-y-4 opacity-50 pointer-events-none transition-opacity duration-300">
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <label for="resizeMethod" class="text-zinc-300">Resize Method</label>
+                                </div>
+                                <div class="flex space-x-4">
+                                    <div class="flex items-center">
+                                        <input type="radio" id="resizePercentage" name="resizeMethod" value="percentage"
+                                            checked class="mr-1">
+                                        <label for="resizePercentage" class="text-zinc-400 text-sm">Percentage</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="radio" id="resizeDimensions" name="resizeMethod" value="dimensions"
+                                            class="mr-1">
+                                        <label for="resizeDimensions" class="text-zinc-400 text-sm">Fixed
+                                            Dimensions</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="percentageResize">
+                                <div class="flex justify-between mb-1">
+                                    <label for="scalePercentage" class="text-zinc-300">Scale: <span
+                                            id="scaleValue">50</span>%</label>
+                                </div>
+                                <input type="range" id="scalePercentage" min="10" max="100" value="50" class="w-full">
+                            </div>
+
+                            <div id="dimensionsResize" class="hidden">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="maxWidth" class="block text-zinc-300 mb-1">Max Width (px)</label>
+                                        <input type="number" id="maxWidth" placeholder="Width" value="800" min="1"
+                                            max="10000"
+                                            class="bg-zinc-700 text-white rounded px-3 py-2 w-full border border-zinc-600 focus:outline-none focus:border-indigo-500">
+                                    </div>
+                                    <div>
+                                        <label for="maxHeight" class="block text-zinc-300 mb-1">Max Height (px)</label>
+                                        <input type="number" id="maxHeight" placeholder="Height" value="600" min="1"
+                                            max="10000"
+                                            class="bg-zinc-700 text-white rounded px-3 py-2 w-full border border-zinc-600 focus:outline-none focus:border-indigo-500">
+                                    </div>
+                                </div>
+                                <div class="flex items-center mt-2">
+                                    <input id="maintainAspectRatio" type="checkbox" checked class="mr-2 h-4 w-4">
+                                    <label for="maintainAspectRatio" class="text-zinc-400 text-sm">Maintain aspect
+                                        ratio</label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <label for="qualitySlider" class="text-zinc-300">Quality: <span
+                                            id="qualityValue">80</span>%</label>
+                                </div>
+                                <input type="range" id="qualitySlider" min="10" max="100" value="80" class="w-full">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="conversionArea" class="hidden">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-lg font-semibold text-white">Files to Convert</h2>
+                            <button id="convertAllButton"
+                                class="px-4 py-2 blue-gradient text-white rounded-lg hover:opacity-90 transition">Convert
+                                All to
+                                WebP</button>
+                        </div>
+
+                        <div id="fileList" class="space-y-3 mb-8"></div>
+                    </div>
+
+                    <div id="convertedArea" class="hidden fade-in">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-lg font-semibold text-white">Converted Files</h2>
+                            <button id="bulkDownloadButton"
+                                class="px-4 py-2 blue-gradient text-white rounded-lg hover:bg-green-700 transition">Download
+                                All</button>
+                        </div>
+
+                        <div id="convertedList" class="space-y-3"></div>
+
+                        <div class="mt-6 text-center">
+                            <button id="convertMoreButton"
+                                class="px-4 py-2 bg-zinc-700 text-white rounded-lg hover:bg-zinc-600 transition">Convert
+                                More
+                                Images</button>
+                        </div>
+                    </div>
+
+                    <div id="conversionProgress" class="hidden text-center py-8">
+                        <div
+                            class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500 mb-4">
+                        </div>
+                        <p class="text-zinc-300">Converting your images...</p>
+                        <p class="text-zinc-400 text-sm mt-2"><span id="conversionCounter">0</span>/<span
+                                id="totalFiles">0</span>
+                            files completed</p>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <footer class="mt-8 p-4 border-t border-zinc-800 text-center">
+                    <div class="flex flex-col items-center justify-center space-y-2">
+                        <p class="text-sm text-zinc-400">© 2025 Jesiah Desaine Media. All rights reserved.</p>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-zinc-400 hover:text-white transition-colors">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="text-zinc-400 hover:text-white transition-colors">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        </div>
+                        <p class="text-xs text-zinc-500">Version 1.0.2</p>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="backToTopBtn"
+        class="fixed bottom-6 right-6 blue-gradient text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all duration-300 z-50">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="js/auth-util.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Sidebar functionality
+            const openSidebarBtn = document.getElementById('openSidebar');
+            const closeSidebarBtn = document.getElementById('closeSidebar');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+
+            openSidebarBtn?.addEventListener('click', () => {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+                document.body.classList.add('overflow-hidden', 'md:overflow-auto');
+            });
+
+            closeSidebarBtn?.addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden', 'md:overflow-auto');
+            });
+
+            overlay?.addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden', 'md:overflow-auto');
+            });
+
+            function playBeepBoop() {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+                function beep(time, frequency, duration) {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+
+                    oscillator.type = 'square';
+                    oscillator.frequency.value = frequency;
+                    gainNode.gain.value = 0.1;
+
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+
+                    oscillator.start(time);
+                    oscillator.stop(time + duration);
+                }
+
+                const now = audioContext.currentTime;
+                beep(now, 880, 0.1);
+                beep(now + 0.15, 587, 0.15);
+                beep(now + 0.35, 349, 0.2);
+            }
+
+            // Handle button click
+            document.getElementById('logoutBtn').addEventListener('click', function () {
+                if (!this.classList.contains('self-destruct')) {
+                    this.classList.add('self-destruct');
+                    playBeepBoop();
+
+                    // Show reset button after explosion
+                    setTimeout(() => {
+                        document.getElementById('resetBtn').classList.add('visible');
+                    }, 1500);
+                }
+            });
+
+            // Back to top button
+            const backToTopBtn = document.getElementById('backToTopBtn');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopBtn.classList.remove('opacity-0', 'invisible');
+                    backToTopBtn.classList.add('opacity-100', 'visible');
+                } else {
+                    backToTopBtn.classList.add('opacity-0', 'invisible');
+                    backToTopBtn.classList.remove('opacity-100', 'visible');
+                }
+            });
+
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            const dropzone = document.getElementById('dropzone');
+            const fileInput = document.getElementById('fileInput');
+            const browseButton = document.getElementById('browseButton');
+            const fileList = document.getElementById('fileList');
+            const convertAllButton = document.getElementById('convertAllButton');
+            const convertedList = document.getElementById('convertedList');
+            const conversionArea = document.getElementById('conversionArea');
+            const convertedArea = document.getElementById('convertedArea');
+            const bulkDownloadButton = document.getElementById('bulkDownloadButton');
+            const convertMoreButton = document.getElementById('convertMoreButton');
+            const conversionProgress = document.getElementById('conversionProgress');
+            const conversionCounter = document.getElementById('conversionCounter');
+            const totalFiles = document.getElementById('totalFiles');
+
+            // Resize settings elements
+            const enableResize = document.getElementById('enableResize');
+            const resizeOptions = document.getElementById('resizeOptions');
+            const resizePercentage = document.getElementById('resizePercentage');
+            const resizeDimensions = document.getElementById('resizeDimensions');
+            const percentageResize = document.getElementById('percentageResize');
+            const dimensionsResize = document.getElementById('dimensionsResize');
+            const scalePercentage = document.getElementById('scalePercentage');
+            const scaleValue = document.getElementById('scaleValue');
+            const maxWidth = document.getElementById('maxWidth');
+            const maxHeight = document.getElementById('maxHeight');
+            const maintainAspectRatio = document.getElementById('maintainAspectRatio');
+            const qualitySlider = document.getElementById('qualitySlider');
+            const qualityValue = document.getElementById('qualityValue');
+
+            let uploadedFiles = [];
+            let convertedFiles = [];
+            let conversionInProgress = false;
+
+            // Event listeners for resize settings
+            enableResize.addEventListener('change', () => {
+                if (enableResize.checked) {
+                    resizeOptions.classList.remove('opacity-50', 'pointer-events-none');
+                } else {
+                    resizeOptions.classList.add('opacity-50', 'pointer-events-none');
+                }
+            });
+
+            resizePercentage.addEventListener('change', () => {
+                percentageResize.classList.remove('hidden');
+                dimensionsResize.classList.add('hidden');
+            });
+
+            resizeDimensions.addEventListener('change', () => {
+                percentageResize.classList.add('hidden');
+                dimensionsResize.classList.remove('hidden');
+            });
+
+            scalePercentage.addEventListener('input', () => {
+                scaleValue.textContent = scalePercentage.value;
+            });
+
+            qualitySlider.addEventListener('input', () => {
+                qualityValue.textContent = qualitySlider.value;
+            });
+
+            // Event listeners for the dropzone
+            dropzone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropzone.classList.add('dropzone-active');
+            });
+
+            dropzone.addEventListener('dragleave', () => {
+                dropzone.classList.remove('dropzone-active');
+            });
+
+            dropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropzone.classList.remove('dropzone-active');
+                handleFiles(e.dataTransfer.files);
+            });
+
+            browseButton.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', () => {
+                handleFiles(fileInput.files);
+            });
+
+            convertAllButton.addEventListener('click', convertAllFiles);
+            bulkDownloadButton.addEventListener('click', downloadAllFiles);
+            convertMoreButton.addEventListener('click', resetForMoreConversion);
+
+            // Function to handle files
+            function handleFiles(files) {
+                if (files.length === 0) return;
+
+                conversionArea.classList.remove('hidden');
+
+                for (const file of files) {
+                    if (!file.type.startsWith('image/')) continue;
+
+                    const fileId = `file-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+                    uploadedFiles.push({
+                        id: fileId,
+                        file: file,
+                        converted: false
+                    });
+
+                    createFileItem(file, fileId);
+                }
+            }
+
+            // Create file item in the list
+            function createFileItem(file, fileId) {
+                const fileSize = formatFileSize(file.size);
+                const fileItem = document.createElement('div');
+                fileItem.id = fileId;
+                fileItem.className = 'flex items-center justify-between bg-zinc-800 rounded-lg p-3 hover:bg-zinc-700 transition';
+
+                // Create a reader to get the image preview
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    fileItem.innerHTML = `
+                        <div class="flex items-center space-x-3">
+                            <div class="h-12 w-12 overflow-hidden rounded-md bg-zinc-700 flex-shrink-0">
+                                <img src="${e.target.result}" alt="${file.name}" class="h-full w-full object-cover">
+                            </div>
+                            <div>
+                                <h3 class="text-zinc-200 font-medium truncate max-w-xs">${file.name}</h3>
+                                <p class="text-zinc-400 text-sm">${fileSize}</p>
+                            </div>
+                        </div>
+                        <button class="convert-btn px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700 transition" data-id="${fileId}">
+                            Convert
+                        </button>
+                    `;
+
+                    fileItem.querySelector('.convert-btn').addEventListener('click', () => {
+                        convertFile(fileId);
+                    });
+                };
+                reader.readAsDataURL(file);
+
+                fileList.appendChild(fileItem);
+            }
+
+            // Get current resize settings
+            function getResizeSettings() {
+                return {
+                    enabled: enableResize.checked,
+                    method: resizePercentage.checked ? 'percentage' : 'dimensions',
+                    scale: parseInt(scalePercentage.value) / 100,
+                    maxWidth: parseInt(maxWidth.value),
+                    maxHeight: parseInt(maxHeight.value),
+                    maintainAspectRatio: maintainAspectRatio.checked,
+                    quality: parseInt(qualitySlider.value) / 100
+                };
+            }
+
+            // Convert a single file
+            function convertFile(fileId) {
+                const fileData = uploadedFiles.find(f => f.id === fileId);
+                if (!fileData || fileData.converted) return;
+
+                const file = fileData.file;
+                const img = new Image();
+                const settings = getResizeSettings();
+
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+
+                    // Calculate new dimensions based on resize settings
+                    if (settings.enabled) {
+                        if (settings.method === 'percentage') {
+                            width = Math.round(img.width * settings.scale);
+                            height = Math.round(img.height * settings.scale);
+                        } else {
+                            const aspectRatio = img.width / img.height;
+
+                            if (settings.maintainAspectRatio) {
+                                if (img.width > settings.maxWidth) {
+                                    width = settings.maxWidth;
+                                    height = Math.round(width / aspectRatio);
+                                }
+
+                                if (height > settings.maxHeight) {
+                                    height = settings.maxHeight;
+                                    width = Math.round(height * aspectRatio);
+                                }
+                            } else {
+                                width = Math.min(img.width, settings.maxWidth);
+                                height = Math.min(img.height, settings.maxHeight);
+                            }
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // Store original dimensions for display
+                    const originalDimensions = {
+                        width: img.width,
+                        height: img.height
+                    };
+                    const newDimensions = {
+                        width: width,
+                        height: height
+                    };
+
+                    canvas.toBlob((blob) => {
+                        if (!blob) return;
+
+                        const convertedFile = new File([blob], file.name.replace(/\.[^/.]+$/, '.webp'), {
+                            type: 'image/webp'
+                        });
+
+                        fileData.converted = true;
+                        fileData.convertedFile = convertedFile;
+                        fileData.originalDimensions = originalDimensions;
+                        fileData.newDimensions = newDimensions;
+
+                        convertedFiles.push({
+                            id: fileId,
+                            originalFile: file,
+                            convertedFile: convertedFile,
+                            originalDimensions: originalDimensions,
+                            newDimensions: newDimensions
+                        });
+
+                        createConvertedItem(file, convertedFile, fileId, originalDimensions, newDimensions);
+
+                        updateUI();
+
+                        const fileItem = document.getElementById(fileId);
+                        if (fileItem) {
+                            const convertBtn = fileItem.querySelector('.convert-btn');
+                            convertBtn.textContent = 'Converted';
+                            convertBtn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+                            convertBtn.classList.add('blue-gradient', 'cursor-default');
+                            convertBtn.disabled = true;
+                        }
+
+                        // Update counter for batch conversion
+                        if (conversionInProgress) {
+                            conversionCounter.textContent = parseInt(conversionCounter.textContent) + 1;
+
+                            if (parseInt(conversionCounter.textContent) === parseInt(totalFiles.textContent)) {
+                                finishConversion();
+                            }
+                        }
+                    }, 'image/webp', settings.quality);
+                };
+
+                img.src = URL.createObjectURL(file);
+            }
+
+            function convertAllFiles() {
+                const unconverted = uploadedFiles.filter(f => !f.converted);
+                if (unconverted.length === 0) return;
+
+                conversionArea.classList.add('hidden');
+                conversionProgress.classList.remove('hidden');
+                conversionCounter.textContent = '0';
+                totalFiles.textContent = unconverted.length;
+                conversionInProgress = true;
+
+                unconverted.forEach(file => {
+                    convertFile(file.id);
+                });
+            }
+
+            // Finish conversion and transition to download view
+            function finishConversion() {
+                setTimeout(() => {
+                    conversionProgress.classList.add('hidden');
+                    convertedArea.classList.remove('hidden');
+                    conversionInProgress = false;
+                    updateUI();
+                }, 800);
+            }
+
+            // Create converted file item
+            function createConvertedItem(originalFile, convertedFile, fileId, originalDimensions, newDimensions) {
+                convertedArea.classList.remove('hidden');
+
+                const originalSize = formatFileSize(originalFile.size);
+                const convertedSize = formatFileSize(convertedFile.size);
+                const reduction = Math.round((1 - (convertedFile.size / originalFile.size)) * 100);
+
+                // Add dimension change information
+                const dimensionsChanged =
+                    originalDimensions.width !== newDimensions.width ||
+                    originalDimensions.height !== newDimensions.height;
+
+                const dimensionInfo = dimensionsChanged ?
+                    `${originalDimensions.width}×${originalDimensions.height} → ${newDimensions.width}×${newDimensions.height}` :
+                    `${newDimensions.width}×${newDimensions.height}`;
+
+                const convertedItem = document.createElement('div');
+                convertedItem.className = 'flex items-center justify-between bg-zinc-800 rounded-lg p-3 hover:bg-zinc-700 transition';
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    convertedItem.innerHTML = `
+                        <div class="flex items-center space-x-3">
+                            <div class="h-12 w-12 overflow-hidden rounded-md bg-zinc-700 flex-shrink-0">
+                                <img src="${e.target.result}" alt="${convertedFile.name}" class="h-full w-full object-cover">
+                            </div>
+                            <div>
+                                <h3 class="text-zinc-200 font-medium truncate max-w-xs">${convertedFile.name}</h3>
+                                <div class="flex space-x-2 text-sm">
+                                    <span class="text-zinc-400">${convertedSize}</span>
+                                    <span class="text-green-500">-${reduction}%</span>
+                                </div>
+                                <div class="text-zinc-500 text-xs">${dimensionInfo}</div>
+                            </div>
+                        </div>
+                        <button class="download-btn px-3 py-1 blue-gradient text-white text-sm rounded hover:bg-green-700 transition" data-id="${fileId}">
+                            Download
+                        </button>
+                    `;
+
+                    convertedItem.querySelector('.download-btn').addEventListener('click', () => {
+                        downloadFile(fileId);
+                    });
+                };
+                reader.readAsDataURL(convertedFile);
+
+                convertedList.appendChild(convertedItem);
+            }
+
+            // Download a single file
+            function downloadFile(fileId) {
+                const fileData = convertedFiles.find(f => f.id === fileId);
+                if (!fileData) return;
+
+                const url = URL.createObjectURL(fileData.convertedFile);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileData.convertedFile.name;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+
+            // Download all files as ZIP
+            function downloadAllFiles() {
+                if (convertedFiles.length === 0) return;
+
+                bulkDownloadButton.innerHTML = `
+                    <span class="inline-block animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white mr-2"></span>
+                    Preparing ZIP...
+                `;
+                bulkDownloadButton.disabled = true;
+
+                const zip = new JSZip();
+                let counter = 0;
+
+                convertedFiles.forEach(fileData => {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const content = e.target.result;
+                        zip.file(fileData.convertedFile.name, content);
+
+                        counter++;
+
+                        if (counter === convertedFiles.length) {
+                            zip.generateAsync({ type: 'blob' }).then(function (content) {
+                                const url = URL.createObjectURL(content);
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = 'converted-images.zip';
+                                document.body.appendChild(a);
+                                a.click();
+                                document.body.removeChild(a);
+                                URL.revokeObjectURL(url);
+
+                                bulkDownloadButton.innerHTML = 'Download All';
+                                bulkDownloadButton.disabled = false;
+                            });
+                        }
+                    };
+                    reader.readAsArrayBuffer(fileData.convertedFile);
+                });
+            }
+
+            function resetForMoreConversion() {
+                t
+                convertedList.innerHTML = '';
+                uploadedFiles = uploadedFiles.filter(file => !file.converted);
+                convertedFiles = [];
+
+                dropzone.classList.remove('hidden');
+                if (uploadedFiles.length > 0) {
+                    conversionArea.classList.remove('hidden');
+                }
+                convertedArea.classList.add('hidden');
+                fileInput.value = '';
+            }
+
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+            }
+
+            function updateUI() {
+                if (convertedFiles.length > 0) {
+                    bulkDownloadButton.classList.remove('hidden');
+                } else {
+                    bulkDownloadButton.classList.add('hidden');
+                }
+
+                if (convertedFiles.length >= 6) {
+                    bulkDownloadButton.classList.add('blue-gradient', 'hover:bg-green-700');
+                    bulkDownloadButton.classList.remove('bg-green-500', 'hover:blue-gradient');
+                } else {
+                    bulkDownloadButton.classList.add('blue-gradient', 'hover:bg-green-700');
+                    bulkDownloadButton.classList.remove('bg-green-500', 'hover:blue-gradient');
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
