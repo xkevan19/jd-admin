@@ -48,8 +48,18 @@ const fetchSupabaseConfig = async () => {
   }
 };
 
+// Simple error alert function since it was missing
+const showErrorAlert = (message) => {
+  alert(message); // You can replace this with a more sophisticated UI approach
+};
+
 const handleLogout = async () => {
   try {
+    // Get a fresh Supabase client inside this function
+    const { createClient } = window.supabase;
+    const config = await fetchSupabaseConfig();
+    const supabaseClient = createClient(config.url, config.key);
+    
     const { error } = await supabaseClient.auth.signOut();
     if (error) {
       console.error("Logout error:", error.message);
