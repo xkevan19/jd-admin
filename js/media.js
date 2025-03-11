@@ -465,6 +465,11 @@ n
 
   deleteImageBtn.addEventListener("click", deleteCurrentImage);
 
+  // Initialize
+  const init = async () => {
+    await fetchImages();
+  };
+
   // Back to Top Button functionality
   const backToTopBtn = document.getElementById("backToTopBtn");
   const mainContent = document.querySelector("main");
