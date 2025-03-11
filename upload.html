@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Upload - Jesiah Desaine Media</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="min-h-screen text-zinc-200 bg-zinc-900 relative">
+
+    <div id="alertContainer" class="fixed top-0 left-0 right-0 p-4 z-50"></div>
+
+    <!-- Mobile Nav Overlay -->
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden"></div>
+
+    <div class="flex h-screen overflow-hidden">
+        <aside id="sidebar"
+            class="sidebar w-64 h-full flex flex-col md:relative fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-50 bg-zinc-900 border-r border-zinc-800">
+            <div class="p-4 border-b border-zinc-800 flex justify-between items-center">
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold gradient-text">JESIAH DESAINE</h1>
+                    <p class="text-zinc-500 text-xs md:text-sm">Admin Dashboard</p>
+                </div>
+                <button id="closeSidebar" class="md:hidden text-zinc-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="flex-1 py-4 overflow-y-auto">
+                <ul class="space-y-1">
+                    <li>
+                        <a href="dash.html" class="nav-item flex items-center px-4 py-3 text-zinc-300 hover:text-white">
+                            <i class="fas fa-home w-6"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="category.html"
+                            class="nav-item flex items-center px-4 py-3 text-zinc-300 hover:text-white">
+                            <i class="fas fa-folder w-6"></i>
+                            <span>Categories</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="media.html"
+                            class="nav-item flex items-center px-4 py-3 text-zinc-300 hover:text-white">
+                            <i class="fas fa-photo-film w-6"></i>
+                            <span>Media</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="upload.html"
+                            class="nav-item active flex items-center px-4 py-3 text-zinc-300 hover:text-white">
+                            <i class="fas fa-upload w-6"></i>
+                            <span>Upload</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- User Profile and Logout -->
+            <div class="border-t border-zinc-800 p-4">
+                <div class="flex items-center mb-4">
+                    <div
+                        class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-r from-[#7077FF] to-[#0037FF] flex items-center justify-center text-white">
+                        <span id="userInitials" class="text-sm md:text-base">JD</span>
+                    </div>
+                    <div class="ml-3">
+                        <p id="userName" class="font-medium text-sm md:text-base">Admin User</p>
+                        <p id="userEmail" class="text-xs md:text-sm text-zinc-500">admin@example.com</p>
+                    </div>
+                </div>
+                <button id="logoutBtn"
+                    class="logout-btn w-full text-left px-4 py-2 rounded-lg text-zinc-300 hover:text-white flex items-center">
+                    <i class="fas fa-sign-out-alt w-6"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto w-full pb-8">
+            <!-- Mobile Header with Menu Button -->
+            <div
+                class="md:hidden sticky top-0 z-30 bg-zinc-900/95 backdrop-blur-sm p-4 flex items-center justify-between border-b border-zinc-800">
+                <button id="openSidebar" class="text-zinc-300 hover:text-white">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <h1 class="text-lg font-bold gradient-text">JESIAH DESAINE</h1>
+                <div
+                    class="w-8 h-8 rounded-full bg-gradient-to-r from-[#7077FF] to-[#0037FF] flex items-center justify-center text-white text-sm">
+                    <span id="mobileUserInitials">JD</span>
+                </div>
+            </div>
+
+            <div class="p-3 md:p-6">
+                <!-- Main Upload Content - Split layout -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-8">
+                    <!-- Upload Form (Left Side) -->
+                    <div class="dashboard-container p-3 md:p-6 rounded-xl">
+                        <h2 class="text-base md:text-xl font-bold mb-3 md:mb-4">Upload Images</h2>
+
+                        <!-- Category Selection with Icons -->
+                        <div class="mb-4 md:mb-6">
+                            <label class="block text-sm font-medium text-zinc-300 mb-2">Category</label>
+                            <div class="flex flex-wrap justify-start gap-2 md:gap-4 w-full">
+                                <!-- Client Category -->
+                                <div id="categoryClient"
+                                    class="category-option flex items-center p-2 md:p-3 rounded-lg cursor-pointer hover:bg-zinc-800 w-full sm:w-auto flex-1 justify-between">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-user-tie text-zinc-400 mr-2 md:mr-3"></i>
+                                        <span class="text-sm md:text-base">Client</span>
+                                    </div>
+                                    <i class="fas fa-check hidden text-green-500"></i>
+                                </div>
+
+                                <!-- Restaurant Category -->
+                                <div id="categoryRestaurant"
+                                    class="category-option flex items-center p-2 md:p-3 rounded-lg cursor-pointer hover:bg-zinc-800 w-full sm:w-auto flex-1 justify-between">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-utensils text-zinc-400 mr-2 md:mr-3"></i>
+                                        <span class="text-sm md:text-base">Restaurant</span>
+                                    </div>
+                                    <i class="fas fa-check hidden text-green-500"></i>
+                                </div>
+
+                                <!-- Events Category -->
+                                <div id="categoryEvents"
+                                    class="category-option flex items-center p-2 md:p-3 rounded-lg cursor-pointer hover:bg-zinc-800 w-full sm:w-auto flex-1 justify-between">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-calendar-alt text-zinc-400 mr-2 md:mr-3"></i>
+                                        <span class="text-sm md:text-base">Events</span>
+                                    </div>
+                                    <i class="fas fa-check hidden text-green-500"></i>
+                                </div>
+                            </div>
+                            <input type="hidden" id="selectedCategory" value="Client">
+                        </div>
+
+                        <!-- Dropzone -->
+                        <div id="dropzone" class="dropzone rounded-lg p-4 md:p-8 mb-4 md:mb-6 text-center">
+                            <div class="flex flex-col items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    class="h-8 w-8 md:h-12 md:w-12 text-zinc-400 mb-2 md:mb-4" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                </svg>
+                                <p class="text-sm md:text-base mb-2">Drag and drop images here</p>
+                                <p class="text-xs md:text-sm text-zinc-400 mb-3 md:mb-4">- or -</p>
+                                <label for="fileInput"
+                                    class="cursor-pointer bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-3 py-1 md:px-4 md:py-2 rounded-lg transition text-sm md:text-base">
+                                    Browse Files
+                                </label>
+                                <input type="file" id="fileInput" class="hidden" multiple accept="image/*">
+                            </div>
+                        </div>
+
+                        <!-- Upload Button -->
+                        <button id="uploadBtn"
+                            class="upload-btn w-full bg-gradient-to-r from-[#7077FF] to-[#0037FF] text-white font-medium md:font-bold py-2 md:py-3 px-4 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base">
+                            Upload Images
+                        </button>
+
+                        <!-- Status Message -->
+                        <p id="status" class="mt-3 md:mt-4 text-center text-sm md:text-base min-h-[24px]"></p>
+
+                        <!-- Upload Progress -->
+                        <div id="progressContainer" class="mt-4 md:mt-6 hidden">
+                            <h3 class="text-base md:text-lg font-medium mb-2 md:mb-4">Upload Progress</h3>
+                            <div class="w-full bg-zinc-700 rounded-full h-3 md:h-4 mb-1 md:mb-2">
+                                <div id="progressBar"
+                                    class="bg-gradient-to-r from-[#7077FF] to-[#0037FF] h-3 md:h-4 rounded-full"
+                                    style="width: 0%"></div>
+                            </div>
+                            <p id="progressText" class="text-xs md:text-sm text-zinc-400 text-right">0%</p>
+                        </div>
+                    </div>
+
+                    <!-- Image Previews (Right Side) -->
+                    <div class="dashboard-container p-3 md:p-6 rounded-xl">
+                        <div
+                            class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3 md:mb-6 gap-2 sm:gap-0">
+                            <h2 class="text-base md:text-xl font-bold">Selected Images</h2>
+                            <div class="flex space-x-2">
+                                <button id="selectAllBtn"
+                                    class="bg-zinc-700 hover:bg-zinc-600 text-zinc-200 px-2 py-1 md:px-3 md:py-1 rounded transition text-xs md:text-sm">
+                                    <i class="fas fa-check-square mr-1"></i> Select All
+                                </button>
+                                <button id="deleteSelectedBtn"
+                                    class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 md:px-3 md:py-1 rounded transition opacity-50 cursor-not-allowed text-xs md:text-sm"
+                                    disabled>
+                                    <i class="fas fa-trash mr-1"></i> Delete
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="noImagesMessage" class="py-6 md:py-10 text-center text-zinc-400">
+                            <i class="fas fa-images text-2xl md:text-4xl mb-2 md:mb-3 block"></i>
+                            <p class="text-sm md:text-base">No images selected yet</p>
+                            <p class="text-xs md:text-sm mt-1 md:mt-2">Upload images will appear here</p>
+                        </div>
+
+                        <!-- Grid layout for images -->
+                        <div id="imagePreviews" class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4"></div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <footer class="mt-8 p-4 border-t border-zinc-800 text-center">
+                    <div class="flex flex-col items-center justify-center space-y-2">
+                        <p class="text-sm text-zinc-400">© 2025 Jesiah Desaine Media. All rights reserved.</p>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-zinc-400 hover:text-white transition-colors">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="text-zinc-400 hover:text-white transition-colors">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        </div>
+                        <p class="text-xs text-zinc-500">Version 1.0.2</p>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <!-- Image Lightbox Modal -->
+    <div id="lightboxModal" class="modal fixed inset-0 z-50 flex items-center justify-center hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-80" onclick="closeLightbox()"></div>
+        <div class="relative z-10">
+            <button id="closeLightboxBtn"
+                class="absolute top-4 right-4 text-white bg-red-600 rounded-full p-2 hover:bg-red-700 transition"
+                onclick="closeLightbox()">
+                <i class="fas fa-times"></i>
+            </button>
+            <img id="lightboxImage" class="lightbox-img rounded-lg max-w-full max-h-[80vh]" src="" alt="Enlarged image">
+        </div>
+    </div>
+
+    <button id="backToTopBtn"
+        class="fixed bottom-6 right-6 bg-gradient-to-r from-[#7077FF] to-[#0037FF] text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all duration-300 z-50">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="js/auth-util.js"></script>
+    <script src="js/index.js"></script>
+</body>
+
+</html>
