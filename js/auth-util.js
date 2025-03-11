@@ -50,22 +50,21 @@ const fetchSupabaseConfig = async () => {
 
 const handleLogout = async () => {
   try {
-    const config = await fetchSupabaseConfig();
-    const supabaseClient = createClient(config.url, config.key);
-
-    // Sign out the user
     const { error } = await supabaseClient.auth.signOut();
-
     if (error) {
       console.error("Logout error:", error.message);
-      return false;
+      showErrorAlert("Logout failed. Please try again.");
+    } else {
+      console.log("Successfully logged out");
+      window.location.href = "index.html";
     }
-
-    // Redirect to login page
-    window.location.href = "index.html";
-    return true;
   } catch (error) {
     console.error("Logout failed:", error.message);
-    return false;
+    showErrorAlert("An error occurred during logout. Please try again.");
   }
 };
+
+const logoutButton = document.getElementById("logoutBtn");
+if (logoutButton) {
+  logoutButton.addEventListener("click", handleLogout);
+}
