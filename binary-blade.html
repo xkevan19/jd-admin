@@ -37,10 +37,244 @@
         input[type="range"] {
             accent-color: #6366f1;
         }
+
+        nav ul {
+            list-style-type: none;
+        }
+
+        .icon-container {
+            width: 24px;
+            height: 24px;
+            margin-right: 14px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        span {
+            font-size: 0.95rem;
+        }
+
+        /* SVG Animations */
+
+        /* Dashboard / Rocket */
+        .rocket-default,
+        .rocket-hover {
+            position: absolute;
+            transition: all 0.4s ease;
+        }
+
+        .rocket-hover {
+            opacity: 0;
+            transform: translateY(24px);
+        }
+
+        .nav-item:hover .rocket-default {
+            opacity: 0;
+            transform: translateY(-24px);
+        }
+
+        .nav-item:hover .rocket-hover {
+            opacity: 1;
+            transform: translateY(0);
+            color: #ff4757;
+        }
+
+        /* Categories / Folder */
+        .folder-default,
+        .folder-hover,
+        .folder-files {
+            position: absolute;
+            transition: all 0.4s ease;
+        }
+
+        .folder-hover,
+        .folder-files {
+            opacity: 0;
+        }
+
+        .nav-item:hover .folder-default {
+            opacity: 0;
+        }
+
+        .nav-item:hover .folder-hover {
+            opacity: 1;
+            color: #ffa502;
+        }
+
+        .nav-item:hover .folder-files {
+            opacity: 1;
+            transition-delay: 0.1s;
+        }
+
+        /* Media / Camera */
+        .camera-default,
+        .camera-hover,
+        .camera-flash {
+            position: absolute;
+            transition: all 0.3s ease;
+        }
+
+        .camera-hover,
+        .camera-flash {
+            opacity: 0;
+        }
+
+        .nav-item:hover .camera-default {
+            opacity: 0;
+        }
+
+        .nav-item:hover .camera-hover {
+            opacity: 1;
+            color: #2ed573;
+        }
+
+        .nav-item:hover .camera-flash {
+            opacity: 1;
+            animation: flash 0.5s ease-out;
+        }
+
+        @keyframes flash {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(1.5);
+            }
+        }
+
+        /* Upload / Cloud */
+        .upload-default,
+        .upload-hover {
+            position: absolute;
+            transition: all 0.5s ease;
+        }
+
+        .upload-hover {
+            opacity: 0;
+        }
+
+        .nav-item:hover .upload-default {
+            opacity: 0;
+        }
+
+        .nav-item:hover .upload-hover {
+            opacity: 1;
+            color: #1e90ff;
+        }
+
+        .upload-arrow {
+            transition: transform 0.5s ease;
+        }
+
+        .nav-item:hover .upload-arrow {
+            transform: translateY(-5px);
+        }
+
+        .upload-cloud {
+            transform: translateY(15px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .nav-item:hover .upload-cloud {
+            transform: translateY(4px);
+            opacity: 1;
+        }
+
+        /* Binary Blade / Scissors */
+        .crop-default,
+        .crop-hover {
+            position: absolute;
+            transition: all 0.5s ease;
+        }
+
+        .crop-hover {
+            opacity: 0;
+        }
+
+        .nav-item:hover .crop-default {
+            opacity: 0;
+        }
+
+        .nav-item:hover .crop-hover {
+            opacity: 1;
+            color: #9b59b6;
+        }
+
+        .scissors-top,
+        .scissors-bottom {
+            transform-origin: 12px 9px;
+            transition: all 0.5s ease;
+        }
+
+        .scissors-image {
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .nav-item:hover .scissors-top {
+            animation: cutTop 1.2s ease-in-out;
+        }
+
+        .nav-item:hover .scissors-bottom {
+            animation: cutBottom 1.2s ease-in-out;
+        }
+
+        .nav-item:hover .scissors-image {
+            opacity: 1;
+            transition-delay: 0.3s;
+        }
+
+        @keyframes cutTop {
+            0% {
+                transform: rotate(0);
+            }
+
+            30% {
+                transform: rotate(-15deg);
+            }
+
+            60% {
+                transform: rotate(5deg);
+            }
+
+            100% {
+                transform: rotate(0);
+            }
+        }
+
+        @keyframes cutBottom {
+            0% {
+                transform: rotate(0);
+            }
+
+            30% {
+                transform: rotate(15deg);
+            }
+
+            60% {
+                transform: rotate(-5deg);
+            }
+
+            100% {
+                transform: rotate(0);
+            }
+        }
     </style>
 </head>
 
-<body class="min-h-screen text-zinc-200 bg-[url(./img/binary-blade.webp)] bg-cover bg-center bg-blend-hard-light relative">
+<body
+    class="min-h-screen text-zinc-200 bg-[url(./img/binary-blade.webp)] bg-cover bg-center bg-blend-hard-light relative">
     <div id="alertContainer" class="fixed top-0 left-0 right-0 p-4 z-50"></div>
 
     <!-- Mobile Nav Overlay -->
@@ -66,12 +300,13 @@
                             <div class="icon-container">
                                 <!-- Dashboard -->
                                 <svg class="rocket-default" viewBox="0 0 24 24" width="24" height="24">
-                                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="currentColor"/>
+                                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="currentColor" />
                                 </svg>
                                 <svg class="rocket-hover" viewBox="0 0 24 24" width="24" height="24">
-                                    <path d="M12,3.5c-2,0-3,2-3,4.5v3l-3,3h3v6h6v-6h3l-3-3V8c0-2.5-1-4.5-3-4.5z" fill="currentColor"/>
-                                    <ellipse cx="12" cy="20" rx="6" ry="1.5" fill="#ff7979" opacity="0.7"/>
-                                    <ellipse cx="12" cy="21" rx="4" ry="1" fill="#ffbe76" opacity="0.6"/>
+                                    <path d="M12,3.5c-2,0-3,2-3,4.5v3l-3,3h3v6h6v-6h3l-3-3V8c0-2.5-1-4.5-3-4.5z"
+                                        fill="currentColor" />
+                                    <ellipse cx="12" cy="20" rx="6" ry="1.5" fill="#ff7979" opacity="0.7" />
+                                    <ellipse cx="12" cy="21" rx="4" ry="1" fill="#ffbe76" opacity="0.6" />
                                 </svg>
                             </div>
                             <span>Dashboard</span>
@@ -82,18 +317,22 @@
                             <div class="icon-container">
                                 <!-- Categories -->
                                 <svg class="folder-default" viewBox="0 0 24 24" width="24" height="24">
-                                    <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" fill="currentColor"/>
+                                    <path
+                                        d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"
+                                        fill="currentColor" />
                                 </svg>
                                 <svg class="folder-hover" viewBox="0 0 24 24" width="24" height="24">
-                                    <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z" fill="currentColor"/>
+                                    <path
+                                        d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"
+                                        fill="currentColor" />
                                 </svg>
                                 <svg class="folder-files" viewBox="0 0 24 24" width="24" height="24">
-                                    <rect x="6" y="12" width="4" height="1" fill="white"/>
-                                    <rect x="6" y="14" width="6" height="1" fill="white"/>
-                                    <rect x="6" y="16" width="5" height="1" fill="white"/>
-                                    <rect x="13" y="12" width="5" height="1" fill="white"/>
-                                    <rect x="14" y="14" width="4" height="1" fill="white"/>
-                                    <rect x="13" y="16" width="5" height="1" fill="white"/>
+                                    <rect x="6" y="12" width="4" height="1" fill="white" />
+                                    <rect x="6" y="14" width="6" height="1" fill="white" />
+                                    <rect x="6" y="16" width="5" height="1" fill="white" />
+                                    <rect x="13" y="12" width="5" height="1" fill="white" />
+                                    <rect x="14" y="14" width="4" height="1" fill="white" />
+                                    <rect x="13" y="16" width="5" height="1" fill="white" />
                                 </svg>
                             </div>
                             <span>Categories</span>
@@ -104,15 +343,19 @@
                             <div class="icon-container">
                                 <!-- Media -->
                                 <svg class="camera-default" viewBox="0 0 24 24" width="24" height="24">
-                                    <path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9z" fill="currentColor"/>
-                                    <circle cx="12" cy="12" r="3" fill="#333"/>
+                                    <path
+                                        d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9z"
+                                        fill="currentColor" />
+                                    <circle cx="12" cy="12" r="3" fill="#333" />
                                 </svg>
                                 <svg class="camera-hover" viewBox="0 0 24 24" width="24" height="24">
-                                    <path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9z" fill="currentColor"/>
-                                    <circle cx="12" cy="12" r="2" fill="#333"/>
+                                    <path
+                                        d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9z"
+                                        fill="currentColor" />
+                                    <circle cx="12" cy="12" r="2" fill="#333" />
                                 </svg>
                                 <svg class="camera-flash" viewBox="0 0 24 24" width="24" height="24">
-                                    <circle cx="12" cy="12" r="6" fill="white" opacity="0.8"/>
+                                    <circle cx="12" cy="12" r="6" fill="white" opacity="0.8" />
                                 </svg>
                             </div>
                             <span>Media</span>
@@ -123,14 +366,16 @@
                             <div class="icon-container">
                                 <!-- Upload -->
                                 <svg class="upload-default" viewBox="0 0 24 24" width="24" height="24">
-                                    <path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z" fill="currentColor"/>
+                                    <path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z" fill="currentColor" />
                                 </svg>
                                 <svg class="upload-hover" viewBox="0 0 24 24" width="24" height="24">
                                     <g class="upload-arrow">
-                                        <path d="M12 6l5 5h-3v4h-4v-4H7l5-5z" fill="currentColor"/>
+                                        <path d="M12 6l5 5h-3v4h-4v-4H7l5-5z" fill="currentColor" />
                                     </g>
                                     <g class="upload-cloud">
-                                        <path d="M19 18H5a3 3 0 0 1-3-3c0-1.6 1.3-2.9 2.9-3a4 4 0 0 1 7.1-3.6c.5-.2 1-.4 1.5-.4a4 4 0 0 1 4 4c1.7 0 3 1.3 3 3s-1.3 3-3 3z" fill="#1e90ff" opacity="0.8"/>
+                                        <path
+                                            d="M19 18H5a3 3 0 0 1-3-3c0-1.6 1.3-2.9 2.9-3a4 4 0 0 1 7.1-3.6c.5-.2 1-.4 1.5-.4a4 4 0 0 1 4 4c1.7 0 3 1.3 3 3s-1.3 3-3 3z"
+                                            fill="#1e90ff" opacity="0.8" />
                                     </g>
                                 </svg>
                             </div>
@@ -142,19 +387,27 @@
                             <div class="icon-container">
                                 <!-- Binary Blade -->
                                 <svg class="crop-default" viewBox="0 0 24 24" width="24" height="24">
-                                    <path d="M17 15h2V7c0-1.1-.9-2-2-2H9v2h8v8zM7 17V1H5v4H1v2h4v10c0 1.1.9 2 2 2h10v4h2v-4h4v-2H7z" fill="currentColor"/>
+                                    <path
+                                        d="M17 15h2V7c0-1.1-.9-2-2-2H9v2h8v8zM7 17V1H5v4H1v2h4v10c0 1.1.9 2 2 2h10v4h2v-4h4v-2H7z"
+                                        fill="currentColor" />
                                 </svg>
                                 <svg class="crop-hover" viewBox="0 0 24 24" width="24" height="24">
                                     <g>
                                         <!-- Scissors image being cut -->
-                                        <rect class="scissors-image" x="7" y="9" width="10" height="6" rx="1" fill="#9b59b6" opacity="0.3"/>
+                                        <rect class="scissors-image" x="7" y="9" width="10" height="6" rx="1"
+                                            fill="#9b59b6" opacity="0.3" />
                                         <!-- Scissors -->
-                                        <path class="scissors-top" d="M7.5,7 C5.5,5 5.5,4 7.5,3 C9.5,2 11.5,4 9.5,6 L16,12" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                                        <path class="scissors-bottom" d="M7.5,17 C5.5,19 5.5,20 7.5,21 C9.5,22 11.5,20 9.5,18 L16,12" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                                        <circle cx="7.5" cy="3.5" r="1.2" fill="currentColor"/>
-                                        <circle cx="7.5" cy="20.5" r="1.2" fill="currentColor"/>
+                                        <path class="scissors-top"
+                                            d="M7.5,7 C5.5,5 5.5,4 7.5,3 C9.5,2 11.5,4 9.5,6 L16,12"
+                                            stroke="currentColor" stroke-width="1.5" fill="none" />
+                                        <path class="scissors-bottom"
+                                            d="M7.5,17 C5.5,19 5.5,20 7.5,21 C9.5,22 11.5,20 9.5,18 L16,12"
+                                            stroke="currentColor" stroke-width="1.5" fill="none" />
+                                        <circle cx="7.5" cy="3.5" r="1.2" fill="currentColor" />
+                                        <circle cx="7.5" cy="20.5" r="1.2" fill="currentColor" />
                                         <!-- Cut line -->
-                                        <path class="scissors-image" d="M8,12 L16,12" stroke="white" stroke-width="0.7" stroke-dasharray="1,1"/>
+                                        <path class="scissors-image" d="M8,12 L16,12" stroke="white" stroke-width="0.7"
+                                            stroke-dasharray="1,1" />
                                     </g>
                                 </svg>
                             </div>
@@ -178,7 +431,21 @@
                 </div>
                 <button id="logoutBtn"
                     class="logout-btn w-full text-left px-4 py-2 rounded-lg text-zinc-300 hover:text-white flex items-center">
-                    <i class="fas fa-sign-out-alt w-6"></i>
+                    <div class="icon-container">
+                        <svg class="logout-default" viewBox="0 0 24 24" width="24" height="24">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"
+                                stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <svg class="logout-hover" viewBox="0 0 24 24" width="24" height="24">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="currentColor" fill="none"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path class="arrow-path" d="M16 17l5-5-5-5" stroke="#7077ff" fill="none" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                            <path class="line-path" d="M21 12H9" stroke="#7077ff" fill="none" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
                     <span>Logout</span>
                 </button>
             </div>
@@ -374,475 +641,7 @@
     </button>
 
     <script src="js/auth-util.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Sidebar functionality
-            const openSidebarBtn = document.getElementById('openSidebar');
-            const closeSidebarBtn = document.getElementById('closeSidebar');
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('overlay');
-
-            openSidebarBtn?.addEventListener('click', () => {
-                sidebar.classList.remove('-translate-x-full');
-                overlay.classList.remove('hidden');
-                document.body.classList.add('overflow-hidden', 'md:overflow-auto');
-            });
-
-            closeSidebarBtn?.addEventListener('click', () => {
-                sidebar.classList.add('-translate-x-full');
-                overlay.classList.add('hidden');
-                document.body.classList.remove('overflow-hidden', 'md:overflow-auto');
-            });
-
-            overlay?.addEventListener('click', () => {
-                sidebar.classList.add('-translate-x-full');
-                overlay.classList.add('hidden');
-                document.body.classList.remove('overflow-hidden', 'md:overflow-auto');
-            });
-
-            // Back to top button
-            const backToTopBtn = document.getElementById('backToTopBtn');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 300) {
-                    backToTopBtn.classList.remove('opacity-0', 'invisible');
-                    backToTopBtn.classList.add('opacity-100', 'visible');
-                } else {
-                    backToTopBtn.classList.add('opacity-0', 'invisible');
-                    backToTopBtn.classList.remove('opacity-100', 'visible');
-                }
-            });
-
-            backToTopBtn.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-
-            const dropzone = document.getElementById('dropzone');
-            const fileInput = document.getElementById('fileInput');
-            const browseButton = document.getElementById('browseButton');
-            const fileList = document.getElementById('fileList');
-            const convertAllButton = document.getElementById('convertAllButton');
-            const convertedList = document.getElementById('convertedList');
-            const conversionArea = document.getElementById('conversionArea');
-            const convertedArea = document.getElementById('convertedArea');
-            const bulkDownloadButton = document.getElementById('bulkDownloadButton');
-            const convertMoreButton = document.getElementById('convertMoreButton');
-            const conversionProgress = document.getElementById('conversionProgress');
-            const conversionCounter = document.getElementById('conversionCounter');
-            const totalFiles = document.getElementById('totalFiles');
-
-            // Resize settings elements
-            const enableResize = document.getElementById('enableResize');
-            const resizeOptions = document.getElementById('resizeOptions');
-            const resizePercentage = document.getElementById('resizePercentage');
-            const resizeDimensions = document.getElementById('resizeDimensions');
-            const percentageResize = document.getElementById('percentageResize');
-            const dimensionsResize = document.getElementById('dimensionsResize');
-            const scalePercentage = document.getElementById('scalePercentage');
-            const scaleValue = document.getElementById('scaleValue');
-            const maxWidth = document.getElementById('maxWidth');
-            const maxHeight = document.getElementById('maxHeight');
-            const maintainAspectRatio = document.getElementById('maintainAspectRatio');
-            const qualitySlider = document.getElementById('qualitySlider');
-            const qualityValue = document.getElementById('qualityValue');
-
-            let uploadedFiles = [];
-            let convertedFiles = [];
-            let conversionInProgress = false;
-
-            // Event listeners for resize settings
-            enableResize.addEventListener('change', () => {
-                if (enableResize.checked) {
-                    resizeOptions.classList.remove('opacity-50', 'pointer-events-none');
-                } else {
-                    resizeOptions.classList.add('opacity-50', 'pointer-events-none');
-                }
-            });
-
-            resizePercentage.addEventListener('change', () => {
-                percentageResize.classList.remove('hidden');
-                dimensionsResize.classList.add('hidden');
-            });
-
-            resizeDimensions.addEventListener('change', () => {
-                percentageResize.classList.add('hidden');
-                dimensionsResize.classList.remove('hidden');
-            });
-
-            scalePercentage.addEventListener('input', () => {
-                scaleValue.textContent = scalePercentage.value;
-            });
-
-            qualitySlider.addEventListener('input', () => {
-                qualityValue.textContent = qualitySlider.value;
-            });
-
-            // Event listeners for the dropzone
-            dropzone.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                dropzone.classList.add('dropzone-active');
-            });
-
-            dropzone.addEventListener('dragleave', () => {
-                dropzone.classList.remove('dropzone-active');
-            });
-
-            dropzone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                dropzone.classList.remove('dropzone-active');
-                handleFiles(e.dataTransfer.files);
-            });
-
-            browseButton.addEventListener('click', () => {
-                fileInput.click();
-            });
-
-            fileInput.addEventListener('change', () => {
-                handleFiles(fileInput.files);
-            });
-
-            convertAllButton.addEventListener('click', convertAllFiles);
-            bulkDownloadButton.addEventListener('click', downloadAllFiles);
-            convertMoreButton.addEventListener('click', resetForMoreConversion);
-
-            // Function to handle files
-            function handleFiles(files) {
-                if (files.length === 0) return;
-
-                conversionArea.classList.remove('hidden');
-
-                for (const file of files) {
-                    if (!file.type.startsWith('image/')) continue;
-
-                    const fileId = `file-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-
-                    uploadedFiles.push({
-                        id: fileId,
-                        file: file,
-                        converted: false
-                    });
-
-                    createFileItem(file, fileId);
-                }
-            }
-
-            // Create file item in the list
-            function createFileItem(file, fileId) {
-                const fileSize = formatFileSize(file.size);
-                const fileItem = document.createElement('div');
-                fileItem.id = fileId;
-                fileItem.className = 'flex items-center justify-between bg-zinc-800 rounded-lg p-3 hover:bg-zinc-700 transition';
-
-                // Create a reader to get the image preview
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    fileItem.innerHTML = `
-                        <div class="flex items-center space-x-3">
-                            <div class="h-12 w-12 overflow-hidden rounded-md bg-zinc-700 flex-shrink-0">
-                                <img src="${e.target.result}" alt="${file.name}" class="h-full w-full object-cover">
-                            </div>
-                            <div>
-                                <h3 class="text-zinc-200 font-medium truncate max-w-xs">${file.name}</h3>
-                                <p class="text-zinc-400 text-sm">${fileSize}</p>
-                            </div>
-                        </div>
-                        <button class="convert-btn px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700 transition" data-id="${fileId}">
-                            Convert
-                        </button>
-                    `;
-
-                    fileItem.querySelector('.convert-btn').addEventListener('click', () => {
-                        convertFile(fileId);
-                    });
-                };
-                reader.readAsDataURL(file);
-
-                fileList.appendChild(fileItem);
-            }
-
-            // Get current resize settings
-            function getResizeSettings() {
-                return {
-                    enabled: enableResize.checked,
-                    method: resizePercentage.checked ? 'percentage' : 'dimensions',
-                    scale: parseInt(scalePercentage.value) / 100,
-                    maxWidth: parseInt(maxWidth.value),
-                    maxHeight: parseInt(maxHeight.value),
-                    maintainAspectRatio: maintainAspectRatio.checked,
-                    quality: parseInt(qualitySlider.value) / 100
-                };
-            }
-
-            // Convert a single file
-            function convertFile(fileId) {
-                const fileData = uploadedFiles.find(f => f.id === fileId);
-                if (!fileData || fileData.converted) return;
-
-                const file = fileData.file;
-                const img = new Image();
-                const settings = getResizeSettings();
-
-                img.onload = () => {
-                    const canvas = document.createElement('canvas');
-                    let width = img.width;
-                    let height = img.height;
-
-                    // Calculate new dimensions based on resize settings
-                    if (settings.enabled) {
-                        if (settings.method === 'percentage') {
-                            width = Math.round(img.width * settings.scale);
-                            height = Math.round(img.height * settings.scale);
-                        } else {
-                            const aspectRatio = img.width / img.height;
-
-                            if (settings.maintainAspectRatio) {
-                                if (img.width > settings.maxWidth) {
-                                    width = settings.maxWidth;
-                                    height = Math.round(width / aspectRatio);
-                                }
-
-                                if (height > settings.maxHeight) {
-                                    height = settings.maxHeight;
-                                    width = Math.round(height * aspectRatio);
-                                }
-                            } else {
-                                width = Math.min(img.width, settings.maxWidth);
-                                height = Math.min(img.height, settings.maxHeight);
-                            }
-                        }
-                    }
-
-                    canvas.width = width;
-                    canvas.height = height;
-
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-
-                    // Store original dimensions for display
-                    const originalDimensions = {
-                        width: img.width,
-                        height: img.height
-                    };
-                    const newDimensions = {
-                        width: width,
-                        height: height
-                    };
-
-                    canvas.toBlob((blob) => {
-                        if (!blob) return;
-
-                        const convertedFile = new File([blob], file.name.replace(/\.[^/.]+$/, '.webp'), {
-                            type: 'image/webp'
-                        });
-
-                        fileData.converted = true;
-                        fileData.convertedFile = convertedFile;
-                        fileData.originalDimensions = originalDimensions;
-                        fileData.newDimensions = newDimensions;
-
-                        convertedFiles.push({
-                            id: fileId,
-                            originalFile: file,
-                            convertedFile: convertedFile,
-                            originalDimensions: originalDimensions,
-                            newDimensions: newDimensions
-                        });
-
-                        createConvertedItem(file, convertedFile, fileId, originalDimensions, newDimensions);
-
-                        updateUI();
-
-                        const fileItem = document.getElementById(fileId);
-                        if (fileItem) {
-                            const convertBtn = fileItem.querySelector('.convert-btn');
-                            convertBtn.textContent = 'Converted';
-                            convertBtn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
-                            convertBtn.classList.add('blue-gradient', 'cursor-default');
-                            convertBtn.disabled = true;
-                        }
-
-                        // Update counter for batch conversion
-                        if (conversionInProgress) {
-                            conversionCounter.textContent = parseInt(conversionCounter.textContent) + 1;
-
-                            if (parseInt(conversionCounter.textContent) === parseInt(totalFiles.textContent)) {
-                                finishConversion();
-                            }
-                        }
-                    }, 'image/webp', settings.quality);
-                };
-
-                img.src = URL.createObjectURL(file);
-            }
-
-            function convertAllFiles() {
-                const unconverted = uploadedFiles.filter(f => !f.converted);
-                if (unconverted.length === 0) return;
-
-                conversionArea.classList.add('hidden');
-                conversionProgress.classList.remove('hidden');
-                conversionCounter.textContent = '0';
-                totalFiles.textContent = unconverted.length;
-                conversionInProgress = true;
-
-                unconverted.forEach(file => {
-                    convertFile(file.id);
-                });
-            }
-
-            // Finish conversion and transition to download view
-            function finishConversion() {
-                setTimeout(() => {
-                    conversionProgress.classList.add('hidden');
-                    convertedArea.classList.remove('hidden');
-                    conversionInProgress = false;
-                    updateUI();
-                }, 800); 
-            }
-
-            // Create converted file item
-            function createConvertedItem(originalFile, convertedFile, fileId, originalDimensions, newDimensions) {
-                convertedArea.classList.remove('hidden');
-
-                const originalSize = formatFileSize(originalFile.size);
-                const convertedSize = formatFileSize(convertedFile.size);
-                const reduction = Math.round((1 - (convertedFile.size / originalFile.size)) * 100);
-
-                // Add dimension change information
-                const dimensionsChanged =
-                    originalDimensions.width !== newDimensions.width ||
-                    originalDimensions.height !== newDimensions.height;
-
-                const dimensionInfo = dimensionsChanged ?
-                    `${originalDimensions.width}×${originalDimensions.height} → ${newDimensions.width}×${newDimensions.height}` :
-                    `${newDimensions.width}×${newDimensions.height}`;
-
-                const convertedItem = document.createElement('div');
-                convertedItem.className = 'flex items-center justify-between bg-zinc-800 rounded-lg p-3 hover:bg-zinc-700 transition';
-
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    convertedItem.innerHTML = `
-                        <div class="flex items-center space-x-3">
-                            <div class="h-12 w-12 overflow-hidden rounded-md bg-zinc-700 flex-shrink-0">
-                                <img src="${e.target.result}" alt="${convertedFile.name}" class="h-full w-full object-cover">
-                            </div>
-                            <div>
-                                <h3 class="text-zinc-200 font-medium truncate max-w-xs">${convertedFile.name}</h3>
-                                <div class="flex space-x-2 text-sm">
-                                    <span class="text-zinc-400">${convertedSize}</span>
-                                    <span class="text-green-500">-${reduction}%</span>
-                                </div>
-                                <div class="text-zinc-500 text-xs">${dimensionInfo}</div>
-                            </div>
-                        </div>
-                        <button class="download-btn px-3 py-1 blue-gradient text-white text-sm rounded hover:bg-green-700 transition" data-id="${fileId}">
-                            Download
-                        </button>
-                    `;
-
-                    convertedItem.querySelector('.download-btn').addEventListener('click', () => {
-                        downloadFile(fileId);
-                    });
-                };
-                reader.readAsDataURL(convertedFile);
-
-                convertedList.appendChild(convertedItem);
-            }
-
-            // Download a single file
-            function downloadFile(fileId) {
-                const fileData = convertedFiles.find(f => f.id === fileId);
-                if (!fileData) return;
-
-                const url = URL.createObjectURL(fileData.convertedFile);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = fileData.convertedFile.name;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            }
-
-            // Download all files as ZIP
-            function downloadAllFiles() {
-                if (convertedFiles.length === 0) return;
-
-                bulkDownloadButton.innerHTML = `
-                    <span class="inline-block animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white mr-2"></span>
-                    Preparing ZIP...
-                `;
-                bulkDownloadButton.disabled = true;
-
-                const zip = new JSZip();
-                let counter = 0;
-
-                convertedFiles.forEach(fileData => {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        const content = e.target.result;
-                        zip.file(fileData.convertedFile.name, content);
-
-                        counter++;
-
-                        if (counter === convertedFiles.length) {
-                            zip.generateAsync({ type: 'blob' }).then(function (content) {
-                                const url = URL.createObjectURL(content);
-                                const a = document.createElement('a');
-                                a.href = url;
-                                a.download = 'converted-images.zip';
-                                document.body.appendChild(a);
-                                a.click();
-                                document.body.removeChild(a);
-                                URL.revokeObjectURL(url);
-
-                                bulkDownloadButton.innerHTML = 'Download All';
-                                bulkDownloadButton.disabled = false;
-                            });
-                        }
-                    };
-                    reader.readAsArrayBuffer(fileData.convertedFile);
-                });
-            }
-
-            function resetForMoreConversion() {t
-                convertedList.innerHTML = '';
-                uploadedFiles = uploadedFiles.filter(file => !file.converted);
-                convertedFiles = [];
-
-                dropzone.classList.remove('hidden');
-                if (uploadedFiles.length > 0) {
-                    conversionArea.classList.remove('hidden');
-                }
-                convertedArea.classList.add('hidden');
-                fileInput.value = '';
-            }
-
-            function formatFileSize(bytes) {
-                if (bytes === 0) return '0 Bytes';
-                const k = 1024;
-                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-                const i = Math.floor(Math.log(bytes) / Math.log(k));
-                return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
-            }
-
-            function updateUI() {
-                if (convertedFiles.length > 0) {
-                    bulkDownloadButton.classList.remove('hidden');
-                } else {
-                    bulkDownloadButton.classList.add('hidden');
-                }
-
-                if (convertedFiles.length >= 6) {
-                    bulkDownloadButton.classList.add('blue-gradient', 'hover:bg-green-700');
-                    bulkDownloadButton.classList.remove('bg-green-500', 'hover:blue-gradient');
-                } else {
-                    bulkDownloadButton.classList.add('blue-gradient', 'hover:bg-green-700');
-                    bulkDownloadButton.classList.remove('bg-green-500', 'hover:blue-gradient');
-                }
-            }
-        });
-    </script>
+    <script src="js/binary-blade.js"></script>
 </body>
 
 </html>
