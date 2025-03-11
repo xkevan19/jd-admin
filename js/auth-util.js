@@ -48,10 +48,8 @@ const fetchSupabaseConfig = async () => {
   }
 };
 
-// Handle logout functionality
 const handleLogout = async () => {
   try {
-    const { createClient } = window.supabase;
     const config = await fetchSupabaseConfig();
     const supabaseClient = createClient(config.url, config.key);
 
@@ -71,55 +69,3 @@ const handleLogout = async () => {
     return false;
   }
 };
-
-// Audio feedback function
-function playBeepBoop() {
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  function beep(time, frequency, duration) {
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    oscillator.type = "square";
-    oscillator.frequency.value = frequency;
-    gainNode.gain.value = 0.1;
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    oscillator.start(time);
-    oscillator.stop(time + duration);
-  }
-  const now = audioContext.currentTime;
-  beep(now, 880, 0.1);
-  beep(now + 0.15, 587, 0.15);
-  beep(now + 0.35, 349, 0.2);
-}
-
-// Make explosion cover more of the page
-function enhanceExplosion() {
-  const explosion = document.querySelector(".explosion");
-  if (explosion) {
-    explosion.style.width = "1200px";
-    explosion.style.height = "1200px";
-    explosion.style.position = "fixed";
-    explosion.style.top = "50%";
-    explosion.style.left = "50%";
-    explosion.style.transform = "translate(-50%, -50%)";
-    explosion.style.zIndex = "1000";
-  }
-}
-
-// Initialize event listeners when DOM is loaded
-document.addEventListener("DOMContentLoaded", () => {
-  const logoutBtn = document.getElementById("logoutBtn");
-
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", function () {
-      if (!this.classList.contains("self-destruct")) {
-        enhanceExplosion();
-        this.classList.add("self-destruct");
-        playBeepBoop();
-        setTimeout(async () => {
-          await handleLogout();
-        }, 1500);
-      }
-    });
-  }
-});
