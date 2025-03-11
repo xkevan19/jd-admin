@@ -1,4 +1,3 @@
-// Declare supabaseClient in a wider scope
 let supabaseClient;
 
 const fetchSupabaseConfig = async () => {
@@ -99,7 +98,6 @@ const showErrorAlert = (message) => {
 const handleLogout = async () => {
   try {
     if (!supabaseClient) {
-      // If supabaseClient is not initialized yet, initialize it
       await initializeSession();
       if (!supabaseClient) {
         showErrorAlert("Unable to establish connection for logout.");

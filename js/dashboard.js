@@ -1,20 +1,4 @@
 document.addEventListener("DOMContentLoaded", async function () {
-  const fetchSupabaseConfig = async () => {
-    try {
-      const response = await fetch("/.netlify/functions/getsupabaseconfig");
-      if (!response.ok) throw new Error("Failed to fetch configuration");
-      return await response.json();
-    } catch (error) {
-      console.error("Error fetching config:", error);
-      return null;
-    }
-  };
-
-  const { createClient } = window.supabase;
-  let supabaseClient;
-  const config = await fetchSupabaseConfig();
-  supabaseClient = createClient(config.url, config.key);
-
   // Sidebar functionality
   const sidebar = document.getElementById("sidebar");
   const overlay = document.getElementById("overlay");
@@ -47,64 +31,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   window.addEventListener("resize", () => {
     if (window.innerWidth >= 768) closeSidebar();
   });
-
-  // Initialize session
-  const initializeSession = async () => {
-    try {
-      const config = await fetchSupabaseConfig();
-      if (!config) {
-        redirectToLogin("Configuration error");
-        return null;
-      }
-
-      supabaseClient = createClient(config.url, config.key);
-      const {
-        data: { session },
-        error,
-      } = await supabaseClient.auth.getSession();
-
-      if (error || !session) {
-        redirectToLogin("No active session");
-        return null;
-      }
-
-      return session;
-    } catch (error) {
-      console.error("Session initialization failed:", error.message);
-      redirectToLogin("Session error");
-      return null;
-    }
-  };
-
-  const redirectToLogin = (reason) => {
-    console.log(`Redirecting to login: ${reason}`);
-    window.location.href = "index.html";
-  };
-
-  // Load user profile
-  const loadUserProfile = async (session) => {
-    try {
-      const userEmail = session.user.email;
-      document.getElementById("userEmail").textContent = userEmail;
-      const initials = userEmail.split("@")[0].substring(0, 2).toUpperCase();
-      document.getElementById("userInitials").textContent = initials;
-
-      if (document.getElementById("mobileUserInitials")) {
-        document.getElementById("mobileUserInitials").textContent = initials;
-      }
-
-      const { data, error } = await supabaseClient
-        .from("profiles")
-        .select("full_name")
-        .eq("id", session.user.id)
-        .single();
-
-      document.getElementById("userName").textContent =
-        data?.full_name || userEmail.split("@")[0];
-    } catch (error) {
-      console.error("Error loading profile:", error.message);
-    }
-  };
 
   // Dashboard data functions
   const updateTotalMediaCount = async () => {
@@ -570,56 +496,4 @@ document.addEventListener("DOMContentLoaded", async function () {
   };
 
   initializeApp();
-
-  const showErrorAlert = (message) => {
-    const alert = document.createElement("div");
-    alert.classList.add(
-      "bg-red-500",
-      "text-white",
-      "p-4",
-      "rounded-lg",
-      "shadow-lg",
-      "flex",
-      "items-center",
-      "space-x-3",
-      "mb-4",
-      "transition-all",
-      "opacity-100"
-    );
-    alert.innerHTML = `
-            <i class="fas fa-exclamation-triangle"></i>
-            <span>${message}</span>
-        `;
-
-    const alertContainer = document.getElementById("alertContainer");
-    alertContainer.appendChild(alert);
-
-    setTimeout(() => {
-      alert.classList.add("opacity-0");
-      setTimeout(() => {
-        alert.remove();
-      }, 500);
-    }, 5000);
-  };
-
-  const handleLogout = async () => {
-    try {
-      const { error } = await supabaseClient.auth.signOut();
-      if (error) {
-        console.error("Logout error:", error.message);
-        showErrorAlert("Logout failed. Please try again.");
-      } else {
-        console.log("Successfully logged out");
-        window.location.href = "index.html";
-      }
-    } catch (error) {
-      console.error("Logout failed:", error.message);
-      showErrorAlert("An error occurred during logout. Please try again.");
-    }
-  };
-
-  const logoutButton = document.getElementById("logoutBtn");
-  if (logoutButton) {
-    logoutButton.addEventListener("click", handleLogout);
-  }
 });
