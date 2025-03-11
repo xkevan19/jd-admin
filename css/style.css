@@ -97,7 +97,6 @@ nav {
 .logout-btn:hover,
 .logout-btn.active {
     background-color: rgba(112, 119, 255, 0.1);
-    border-left: 3px solid #0037FF;
 }
 
 .logout-btn .icon-container {
@@ -137,7 +136,7 @@ nav {
     }
 
     50% {
-        transform: translateX(3px);
+        transform: translateX(30px);
     }
 
     100% {
@@ -149,14 +148,13 @@ nav {
     animation: slide-right 1.5s infinite;
 }
 
-/* Line animation - optional */
 @keyframes line-stretch {
     0% {
         transform: scaleX(1);
     }
 
     50% {
-        transform: scaleX(1.1);
+        transform: scaleX(1.5);
     }
 
     100% {
