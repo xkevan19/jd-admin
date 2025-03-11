@@ -54,6 +54,7 @@ const fetchSupabaseConfig = async () => {
 // Handle logout functionality
 const handleLogout = async () => {
   try {
+    const { createClient } = window.supabase;
     const config = await fetchSupabaseConfig();
     const supabaseClient = createClient(config.url, config.key);
 
@@ -130,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // The animation takes about 2 seconds based on your CSS
         setTimeout(async () => {
           await handleLogout();
-        }, 2000); // Set to slightly less than the full animation time
+        }, 2000); // Set to match the full animation time
       }
     });
   }
