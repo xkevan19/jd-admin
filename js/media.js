@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", async function () {
   // Variables
+  const { createClient } = window.supabase;
+  let supabaseClient;
   let currentPage = 1;
   let totalPages = 1;
   let pageSize = 12;
