@@ -44,10 +44,7 @@ const fetchSupabaseConfig = async () => {
     throw new Error("Could not fetch secure config");
   } catch (error) {
     console.error("Error fetching config:", error);
-    return {
-      url: "https://lizdybqvrzybcczvqdma.supabase.co",
-      key: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxpemR5YnF2cnp5YmNjenZxZG1hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyNDQ3MDcsImV4cCI6MjA1NjgyMDcwN30.mXFeXH6UN-C9OEqVTL65n3BmJ4mBsIrcJGhlXjOqpFE",
-    };
+    throw new Error("Failed to get Supabase configuration");
   }
 };
 
@@ -99,13 +96,12 @@ function playBeepBoop() {
 function enhanceExplosion() {
   const explosion = document.querySelector('.explosion');
   if (explosion) {
-    // Make explosion larger and centered on page
-    explosion.style.width = '300px';
-    explosion.style.height = '300px';
+    explosion.style.width = '600px';
+    explosion.style.height = '600px';
     explosion.style.position = 'fixed';
     explosion.style.top = '50%';
     explosion.style.left = '50%';
-    explosion.style.transform = 'translate(-50%, -50%) scale(0.5)';
+    explosion.style.transform = 'translate(-50%, -50%) ';
     explosion.style.zIndex = '1000';
   }
 }
@@ -126,12 +122,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Play sound effect
         playBeepBoop();
-        
-        // Wait for animation to complete before logout
-        // The animation takes about 2 seconds based on your CSS
         setTimeout(async () => {
           await handleLogout();
-        }, 2000); // Set to match the full animation time
+        }, 1500); // Set to match the full animation time
       }
     });
   }
