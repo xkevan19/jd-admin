@@ -76,6 +76,261 @@ nav {
     border-left: 3px solid #0037FF;
 }
 
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+input[type="range"] {
+    accent-color: #6366f1;
+}
+
+nav ul {
+    list-style-type: none;
+}
+
+.icon-container {
+    width: 24px;
+    height: 24px;
+    margin-right: 14px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+span {
+    font-size: 0.95rem;
+}
+
+/* SVG Animations */
+
+/* Dashboard / Rocket */
+.rocket-default,
+.rocket-hover {
+    position: absolute;
+    transition: all 0.4s ease;
+}
+
+.rocket-hover {
+    opacity: 0;
+    transform: translateY(24px);
+}
+
+.nav-item:hover .rocket-default {
+    opacity: 0;
+    transform: translateY(-24px);
+}
+
+.nav-item:hover .rocket-hover {
+    opacity: 1;
+    transform: translateY(0);
+    color: #ff4757;
+}
+
+/* Categories / Folder */
+.folder-default,
+.folder-hover,
+.folder-files {
+    position: absolute;
+    transition: all 0.4s ease;
+}
+
+.folder-hover,
+.folder-files {
+    opacity: 0;
+}
+
+.nav-item:hover .folder-default {
+    opacity: 0;
+}
+
+.nav-item:hover .folder-hover {
+    opacity: 1;
+    color: #ffa502;
+}
+
+.nav-item:hover .folder-files {
+    opacity: 1;
+    transition-delay: 0.1s;
+}
+
+/* Media / Camera */
+.camera-default,
+.camera-hover,
+.camera-flash {
+    position: absolute;
+    transition: all 0.3s ease;
+}
+
+.camera-hover,
+.camera-flash {
+    opacity: 0;
+}
+
+.nav-item:hover .camera-default {
+    opacity: 0;
+}
+
+.nav-item:hover .camera-hover {
+    opacity: 1;
+    color: #2ed573;
+}
+
+.nav-item:hover .camera-flash {
+    opacity: 1;
+    animation: flash 0.5s ease-out;
+}
+
+@keyframes flash {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.5);
+    }
+}
+
+/* Upload / Cloud */
+.upload-default,
+.upload-hover {
+    position: absolute;
+    transition: all 0.5s ease;
+}
+
+.upload-hover {
+    opacity: 0;
+}
+
+.nav-item:hover .upload-default {
+    opacity: 0;
+}
+
+.nav-item:hover .upload-hover {
+    opacity: 1;
+    color: #1e90ff;
+}
+
+.upload-arrow {
+    transition: transform 0.5s ease;
+}
+
+.nav-item:hover .upload-arrow {
+    transform: translateY(-5px);
+}
+
+.upload-cloud {
+    transform: translateY(15px);
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+.nav-item:hover .upload-cloud {
+    transform: translateY(4px);
+    opacity: 1;
+}
+
+/* Binary Blade / Scissors */
+.crop-default,
+.crop-hover {
+    position: absolute;
+    transition: all 0.5s ease;
+}
+
+.crop-hover {
+    opacity: 0;
+}
+
+.nav-item:hover .crop-default {
+    opacity: 0;
+}
+
+.nav-item:hover .crop-hover {
+    opacity: 1;
+    color: #9b59b6;
+}
+
+.scissors-top,
+.scissors-bottom {
+    transform-origin: 12px 9px;
+    transition: all 0.5s ease;
+}
+
+.scissors-image {
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+.nav-item:hover .scissors-top {
+    animation: cutTop 1.2s ease-in-out;
+}
+
+.nav-item:hover .scissors-bottom {
+    animation: cutBottom 1.2s ease-in-out;
+}
+
+.nav-item:hover .scissors-image {
+    opacity: 1;
+    transition-delay: 0.3s;
+}
+
+@keyframes cutTop {
+    0% {
+        transform: rotate(0);
+    }
+
+    30% {
+        transform: rotate(-15deg);
+    }
+
+    60% {
+        transform: rotate(5deg);
+    }
+
+    100% {
+        transform: rotate(0);
+    }
+}
+
+@keyframes cutBottom {
+    0% {
+        transform: rotate(0);
+    }
+
+    30% {
+        transform: rotate(15deg);
+    }
+
+    60% {
+        transform: rotate(-5deg);
+    }
+
+    100% {
+        transform: rotate(0);
+    }
+}
+
+.dropzone-active {
+    border-color: #6366f1;
+}
+
 .stat-card {
     background-color: rgba(30, 30, 30, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -87,7 +342,6 @@ nav {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Logout Button with SVG swap animation */
 .logout-btn {
     position: relative;
     transition: all 0.3s ease;
@@ -129,7 +383,6 @@ nav {
     opacity: 1;
 }
 
-/* Arrow animation */
 @keyframes slide-right {
     0% {
         transform: translateX(0);
