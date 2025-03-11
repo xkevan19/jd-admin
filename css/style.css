@@ -136,7 +136,7 @@ nav {
     }
 
     50% {
-        transform: translateX(30px);
+        transform: translateX(3px);
     }
 
     100% {
@@ -154,7 +154,7 @@ nav {
     }
 
     50% {
-        transform: scaleX(1.5);
+        transform: scaleX(1.1);
     }
 
     100% {
