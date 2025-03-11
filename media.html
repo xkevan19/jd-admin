@@ -36,41 +36,124 @@
                 </button>
             </div>
 
-            <!-- Navigation -->
-            <nav class="flex-1 py-4 overflow-y-auto">
-                <ul class="space-y-1">
+            <nav>
+                <ul>
                     <li>
-                        <a href="dash.html"
-                            class="nav-item flex items-center px-4 py-3 text-zinc-300 hover:text-white">
-                            <i class="fas fa-home w-6"></i>
+                        <a href="dash.html" class="nav-item">
+                            <div class="icon-container">
+                                <!-- Dashboard -->
+                                <svg class="rocket-default" viewBox="0 0 24 24" width="24" height="24">
+                                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="currentColor" />
+                                </svg>
+                                <svg class="rocket-hover" viewBox="0 0 24 24" width="24" height="24">
+                                    <path d="M12,3.5c-2,0-3,2-3,4.5v3l-3,3h3v6h6v-6h3l-3-3V8c0-2.5-1-4.5-3-4.5z"
+                                        fill="currentColor" />
+                                    <ellipse cx="12" cy="20" rx="6" ry="1.5" fill="#ff7979" opacity="0.7" />
+                                    <ellipse cx="12" cy="21" rx="4" ry="1" fill="#ffbe76" opacity="0.6" />
+                                </svg>
+                            </div>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="category.html"
-                            class="nav-item flex items-center px-4 py-3 text-zinc-300 hover:text-white">
-                            <i class="fas fa-folder w-6"></i>
+                        <a href="category.html" class="nav-item active">
+                            <div class="icon-container">
+                                <!-- Categories -->
+                                <svg class="folder-default" viewBox="0 0 24 24" width="24" height="24">
+                                    <path
+                                        d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"
+                                        fill="currentColor" />
+                                </svg>
+                                <svg class="folder-hover" viewBox="0 0 24 24" width="24" height="24">
+                                    <path
+                                        d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"
+                                        fill="currentColor" />
+                                </svg>
+                                <svg class="folder-files" viewBox="0 0 24 24" width="24" height="24">
+                                    <rect x="6" y="12" width="4" height="1" fill="white" />
+                                    <rect x="6" y="14" width="6" height="1" fill="white" />
+                                    <rect x="6" y="16" width="5" height="1" fill="white" />
+                                    <rect x="13" y="12" width="5" height="1" fill="white" />
+                                    <rect x="14" y="14" width="4" height="1" fill="white" />
+                                    <rect x="13" y="16" width="5" height="1" fill="white" />
+                                </svg>
+                            </div>
                             <span>Categories</span>
                         </a>
                     </li>
                     <li>
-                        <a href="media.html"
-                            class="nav-item active flex items-center px-4 py-3 text-zinc-300 hover:text-white">
-                            <i class="fas fa-photo-film w-6"></i>
+                        <a href="#" class="nav-item">
+                            <div class="icon-container">
+                                <!-- Media -->
+                                <svg class="camera-default" viewBox="0 0 24 24" width="24" height="24">
+                                    <path
+                                        d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9z"
+                                        fill="currentColor" />
+                                    <circle cx="12" cy="12" r="3" fill="#333" />
+                                </svg>
+                                <svg class="camera-hover" viewBox="0 0 24 24" width="24" height="24">
+                                    <path
+                                        d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9z"
+                                        fill="currentColor" />
+                                    <circle cx="12" cy="12" r="2" fill="#333" />
+                                </svg>
+                                <svg class="camera-flash" viewBox="0 0 24 24" width="24" height="24">
+                                    <circle cx="12" cy="12" r="6" fill="white" opacity="0.8" />
+                                </svg>
+                            </div>
                             <span>Media</span>
                         </a>
                     </li>
                     <li>
-                        <a href="upload.html"
-                            class="nav-item flex items-center px-4 py-3 text-zinc-300 hover:text-white">
-                            <i class="fas fa-upload w-6"></i>
+                        <a href="upload.html" class="nav-item">
+                            <div class="icon-container">
+                                <!-- Upload -->
+                                <svg class="upload-default" viewBox="0 0 24 24" width="24" height="24">
+                                    <path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z" fill="currentColor" />
+                                </svg>
+                                <svg class="upload-hover" viewBox="0 0 24 24" width="24" height="24">
+                                    <g class="upload-arrow">
+                                        <path d="M12 6l5 5h-3v4h-4v-4H7l5-5z" fill="currentColor" />
+                                    </g>
+                                    <g class="upload-cloud">
+                                        <path
+                                            d="M19 18H5a3 3 0 0 1-3-3c0-1.6 1.3-2.9 2.9-3a4 4 0 0 1 7.1-3.6c.5-.2 1-.4 1.5-.4a4 4 0 0 1 4 4c1.7 0 3 1.3 3 3s-1.3 3-3 3z"
+                                            fill="#1e90ff" opacity="0.8" />
+                                    </g>
+                                </svg>
+                            </div>
                             <span>Upload</span>
                         </a>
                     </li>
                     <li>
-                        <a href="binary-blade.html"
-                            class="nav-item flex items-center px-4 py-3 text-zinc-300 hover:text-white">
-                            <i class="fas fa-crop-alt w-6"></i>
+                        <a href="binary-blade.html" class="nav-item">
+                            <div class="icon-container">
+                                <!-- Binary Blade -->
+                                <svg class="crop-default" viewBox="0 0 24 24" width="24" height="24">
+                                    <path
+                                        d="M17 15h2V7c0-1.1-.9-2-2-2H9v2h8v8zM7 17V1H5v4H1v2h4v10c0 1.1.9 2 2 2h10v4h2v-4h4v-2H7z"
+                                        fill="currentColor" />
+                                </svg>
+                                <svg class="crop-hover" viewBox="0 0 24 24" width="24" height="24">
+                                    <g>
+                                        <!-- Scissors image being cut -->
+                                        <rect class="scissors-image" x="7" y="9" width="10" height="6" rx="1"
+                                            fill="#9b59b6" opacity="0.3" />
+                                        <!-- Scissors -->
+                                        <path class="scissors-top"
+                                            d="M7.5,7 C5.5,5 5.5,4 7.5,3 C9.5,2 11.5,4 9.5,6 L16,12"
+                                            stroke="currentColor" stroke-width="1.5" fill="none" />
+                                        <path class="scissors-bottom"
+                                            d="M7.5,17 C5.5,19 5.5,20 7.5,21 C9.5,22 11.5,20 9.5,18 L16,12"
+                                            stroke="currentColor" stroke-width="1.5" fill="none" />
+                                        <circle cx="7.5" cy="3.5" r="1.2" fill="currentColor" />
+                                        <circle cx="7.5" cy="20.5" r="1.2" fill="currentColor" />
+                                        <!-- Cut line -->
+                                        <path class="scissors-image" d="M8,12 L16,12" stroke="white" stroke-width="0.7"
+                                            stroke-dasharray="1,1" />
+                                    </g>
+                                </svg>
+                            </div>
                             <span>Binary Blade</span>
                         </a>
                     </li>
@@ -91,7 +174,21 @@
                 </div>
                 <button id="logoutBtn"
                     class="logout-btn w-full text-left px-4 py-2 rounded-lg text-zinc-300 hover:text-white flex items-center">
-                    <i class="fas fa-sign-out-alt w-6"></i>
+                    <div class="icon-container">
+                        <svg class="logout-default" viewBox="0 0 24 24" width="24" height="24">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"
+                                stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <svg class="logout-hover" viewBox="0 0 24 24" width="24" height="24">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="currentColor" fill="none"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path class="arrow-path" d="M16 17l5-5-5-5" stroke="#7077ff" fill="none" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                            <path class="line-path" d="M21 12H9" stroke="#7077ff" fill="none" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
                     <span>Logout</span>
                 </button>
             </div>
@@ -106,8 +203,7 @@
                     <i class="fas fa-bars text-xl"></i>
                 </button>
                 <h1 class="text-lg font-bold gradient-text">JESIAH DESAINE</h1>
-                <div
-                    class="w-8 h-8 rounded-full blue-gradient flex items-center justify-center text-white text-sm">
+                <div class="w-8 h-8 rounded-full blue-gradient flex items-center justify-center text-white text-sm">
                     <span id="mobileUserInitials">JD</span>
                 </div>
             </div>
@@ -121,9 +217,11 @@
                             <div class="relative flex-grow md:flex-grow-0 md:w-64">
                                 <input id="searchInput" type="text" placeholder="Search images..."
                                     class="search-input w-full px-4 py-2 rounded-lg text-zinc-200 focus:outline-none pl-10">
-                                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-400"></i>
+                                <i
+                                    class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-400"></i>
                             </div>
-                            <button id="searchBtn" class="bg-zinc-700 hover:bg-zinc-600 px-4 py-2 rounded-lg transition">
+                            <button id="searchBtn"
+                                class="bg-zinc-700 hover:bg-zinc-600 px-4 py-2 rounded-lg transition">
                                 <i class="fas fa-search"></i>
                             </button>
                             <a href="upload.html"
@@ -173,11 +271,13 @@
                     </div>
 
                     <!-- Empty State -->
-                    <div id="emptyState" class="empty-state-container py-12 flex flex-col items-center justify-center hidden">
+                    <div id="emptyState"
+                        class="empty-state-container py-12 flex flex-col items-center justify-center hidden">
                         <i class="fas fa-photo-film text-5xl text-zinc-500 mb-4"></i>
                         <h3 class="text-lg font-medium text-zinc-400 mb-2">No Images Found</h3>
                         <p class="text-zinc-500 text-center max-w-md">
-                            No images match your current filter or search criteria. Try adjusting your filters or uploading new
+                            No images match your current filter or search criteria. Try adjusting your filters or
+                            uploading new
                             images.
                         </p>
                         <a href="upload.html"
@@ -187,7 +287,8 @@
                     </div>
 
                     <!-- Image Grid -->
-                    <div id="imageGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+                    <div id="imageGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    </div>
 
                     <!-- Pagination -->
                     <div id="pagination" class="mt-8 flex justify-center items-center space-x-2">
