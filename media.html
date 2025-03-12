@@ -383,6 +383,20 @@
     <script src="js/auth-util.js"></script>
     <script src="js/sidebar.js"></script>
     <script src="js/media.js"></script>
+    <script>
+          const handleLiveSearch = () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      const query = searchInput.value.trim();
+      if (query.length > 1) {
+        fetchSuggestions(query);
+      } else {
+        suggestionsBox.classList.add("hidden");
+      }
+      toggleClearButton();
+    }, 300); // Delay execution by 300ms
+  };
+    </script>
 </body>
 
 </html>
