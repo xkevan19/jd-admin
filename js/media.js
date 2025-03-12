@@ -34,6 +34,39 @@ document.addEventListener("DOMContentLoaded", async function () {
   const confirmationMessage = document.getElementById("confirmationMessage");
   const confirmActionBtn = document.getElementById("confirmActionBtn");
 
+  // Sidebar Elements
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+  const openSidebarBtn = document.getElementById("openSidebar");
+  const closeSidebarBtn = document.getElementById("closeSidebar");
+
+  const openSidebar = () => {
+    sidebar.classList.add("open");
+    overlay.classList.add("active");
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeSidebar = () => {
+    sidebar.classList.remove("open");
+    overlay.classList.remove("active");
+    document.body.style.overflow = "";
+  };
+
+  if (openSidebarBtn) openSidebarBtn.addEventListener("click", openSidebar);
+  if (closeSidebarBtn) closeSidebarBtn.addEventListener("click", closeSidebar);
+  if (overlay) overlay.addEventListener("click", closeSidebar);
+
+  // Close sidebar when clicking on menu items on mobile
+  document.querySelectorAll(".nav-item").forEach((item) => {
+    item.addEventListener("click", () => {
+      if (window.innerWidth < 768) closeSidebar();
+    });
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth >= 768) closeSidebar();
+  });
+
   // Fetch Supabase config securely
   const fetchSupabaseConfig = async () => {
     try {
@@ -386,13 +419,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     imageDate.textContent = formatDate(imageData.created_at);
     currentLightboxImageId = imageData.id;
     lightboxModal.classList.remove("hidden");
-    document.body.style.overflow = "hidden"; 
+    document.body.style.overflow = "hidden";
   };
 
   // Close lightbox
   window.closeLightbox = () => {
     lightboxModal.classList.add("hidden");
-    document.body.style.overflow = ""; 
+    document.body.style.overflow = "";
     currentLightboxImageId = null;
   };
 

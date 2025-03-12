@@ -20,6 +20,39 @@ document.addEventListener("DOMContentLoaded", async function () {
   const editCategoryName = document.getElementById("editCategoryName");
   const editStatus = document.getElementById("editStatus");
 
+  // Sidebar Elements
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+  const openSidebarBtn = document.getElementById("openSidebar");
+  const closeSidebarBtn = document.getElementById("closeSidebar");
+
+  const openSidebar = () => {
+    sidebar.classList.add("open");
+    overlay.classList.add("active");
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeSidebar = () => {
+    sidebar.classList.remove("open");
+    overlay.classList.remove("active");
+    document.body.style.overflow = "";
+  };
+
+  if (openSidebarBtn) openSidebarBtn.addEventListener("click", openSidebar);
+  if (closeSidebarBtn) closeSidebarBtn.addEventListener("click", closeSidebar);
+  if (overlay) overlay.addEventListener("click", closeSidebar);
+
+  // Close sidebar when clicking on menu items on mobile
+  document.querySelectorAll(".nav-item").forEach((item) => {
+    item.addEventListener("click", () => {
+      if (window.innerWidth < 768) closeSidebar();
+    });
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth >= 768) closeSidebar();
+  });
+
   // DOM Elements - Delete Confirmation Modal
   const deleteModal = document.getElementById("deleteModal");
   const deleteModalCategoryName = document.getElementById(
@@ -254,7 +287,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // Initialize
   const init = async () => {
-
     // Get Supabase client
     const config = await fetchSupabaseConfig();
     if (!config) return;
