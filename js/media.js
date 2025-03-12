@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       if (error || !session) {
         console.error("Authentication error or no session");
-        window.location.href = "index.html";
+        window.location.href = "login.html";
         return null;
       }
 
@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       return session;
     } catch (error) {
       console.error("Session verification failed:", error.message);
-      window.location.href = "index.html";
+      window.location.href = "login.html";
       return null;
     }
   };
@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       await logActivity("Logout");
       const { error } = await supabaseClient.auth.signOut();
       if (error) throw error;
-      window.location.href = "index.html";
+      window.location.href = "login.html";
     } catch (error) {
       console.error("Logout failed:", error.message);
       statusEl.innerText = "Logout failed. Please try again.";

@@ -41,7 +41,7 @@ const initializeSession = async () => {
 
 const redirectToLogin = (reason) => {
   console.log(`Redirecting to login: ${reason}`);
-  window.location.href = "index.html";
+  window.location.href = "login.html";
 };
 
 // Load user profile
@@ -111,7 +111,7 @@ const handleLogout = async () => {
       showErrorAlert("Logout failed. Please try again.");
     } else {
       console.log("Successfully logged out");
-      window.location.href = "index.html";
+      window.location.href = "login.html";
     }
   } catch (error) {
     console.error("Logout failed:", error.message);
@@ -134,6 +134,6 @@ const initAuth = async () => {
 };
 
 // Run initialization if not on the login page
-if (!window.location.pathname.includes("index.html")) {
+if (!window.location.pathname.includes("login.html")) {
   initAuth();
 }

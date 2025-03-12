@@ -156,14 +156,14 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => {
       splashContainer.classList.add("fade-out");
       setTimeout(() => {
-        window.location.href = "index.html";
+        window.location.href = "login.html";
       }, 800);
     }, 1000);
   }
 
   setTimeout(() => {
     if (document.getElementById("splash-container")) {
-      window.location.href = "index.html";
+      window.location.href = "login.html";
     }
   }, 8000);
 });
