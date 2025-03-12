@@ -420,6 +420,16 @@ span {
     box-shadow: 0 0 10px rgba(112, 119, 255, 0.3);
 }
 
+#suggestions div {
+    padding: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#suggestions div:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
 .empty-state-container {
     height: 300px;
 }

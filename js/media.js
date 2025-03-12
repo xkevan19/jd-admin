@@ -18,6 +18,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   const filterButtons = document.querySelectorAll(".filter-btn");
   const searchInput = document.getElementById("searchInput");
   const searchBtn = document.getElementById("searchBtn");
+  const suggestionsBox = document.getElementById("suggestions");
+  let debounceTimer;
   const selectAllCheckbox = document.getElementById("selectAllCheckbox");
   const bulkActionButtons = document.getElementById("bulkActionButtons");
   const deleteSelectedBtn = document.getElementById("deleteSelectedBtn");
@@ -295,12 +297,67 @@ document.addEventListener("DOMContentLoaded", async function () {
     fetchImages();
   };
 
-  // Handle search
+  // Live Search with Debouncing
+  const handleLiveSearch = () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      const query = searchInput.value.trim();
+      if (query.length > 1) {
+        fetchSuggestions(query);
+      } else {
+        suggestionsBox.classList.add("hidden");
+      }
+      toggleClearButton();
+    }, 300); // Delay execution by 300ms
+  };
+
+  // Fetch suggestions (Replace with API Call)
+  const fetchSuggestions = async (query) => {
+    const suggestions = [
+      "Nature",
+      "Client",
+      "Events",
+      "Restaurant",
+      "Abstract",
+      "Portrait",
+      "City",
+      "Animals",
+    ];
+    const filtered = suggestions.filter((item) =>
+      item.toLowerCase().includes(query.toLowerCase())
+    );
+
+    suggestionsBox.innerHTML = filtered
+      .map((item) => `<div onclick="selectSuggestion('${item}')">${item}</div>`)
+      .join("");
+    suggestionsBox.classList.toggle("hidden", filtered.length === 0);
+  };
+
+  // Handle search submission
   const handleSearch = () => {
     currentSearchQuery = searchInput.value.trim();
     currentPage = 1;
     fetchImages();
   };
+
+  // Select suggestion
+  const selectSuggestion = (value) => {
+    searchInput.value = value;
+    handleSearch();
+    suggestionsBox.classList.add("hidden");
+  };
+
+  // Toggle clear button visibility
+  const toggleClearButton = () => {
+    clearSearch.classList.toggle("hidden", searchInput.value.trim() === "");
+  };
+
+  // Clear search input
+  clearSearch.addEventListener("click", () => {
+    searchInput.value = "";
+    toggleClearButton();
+    suggestionsBox.classList.add("hidden");
+  });
 
   // Toggle image selection
   const toggleImageSelection = (imageId) => {
